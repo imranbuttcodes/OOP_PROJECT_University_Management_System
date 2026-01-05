@@ -9,7 +9,9 @@ public:
 Account();
 Account(std::string user_name, std::string password);
 
-virtual bool login(std::string user_name, std::string password) = 0;
-
+virtual bool VerifyIdentity(std::string user_name, std::string password) = 0;
+std::string user_name() const {
+    return user_name_;
+}
 virtual ~Account() {}
 };
