@@ -19,6 +19,7 @@ struct Assesment {
    std::map<std::string, std::pair<double, double>> marks_;//student_roll_number, obtained_marks, percentage //this will be of that student
    double total_marks_= 0;
    double sum = 0.0;
+   double class_average_;
    void AddOrUpdateMarks(std::string student_roll_number, double obtained_marks) {
     if(total_marks_ == 0) {
         cout <<"Error: total_marks for the assesment haven't set please set it" << endl;
@@ -30,6 +31,7 @@ struct Assesment {
     marks_[student_roll_number] = {obtained_marks,(obtained_marks/total_marks_) * 100};
 
     sum += obtained_marks;
+    class_average_ = calculateAverage();
    }
 
     double calculateAverage() {
@@ -47,3 +49,4 @@ double attentance_percentage = (attentance_count_ / total_attantance) * 100;
 // std::pair<double,double> mid_marks_;
 // std::pair<double,double> finals_marks_;
 };
+

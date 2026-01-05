@@ -4,6 +4,6 @@
 #include<iostream>
 class IStudentPortalReadOnly {
 public:
-virtual void ViewGrade(std::string student_roll_number, std::string assesment_id) = 0;
+virtual bool ViewStudentAssesment(std::string course_code, std::string student_roll_number, std::string assesment_id) = 0;
 virtual ~IStudentPortalReadOnly();
 };
