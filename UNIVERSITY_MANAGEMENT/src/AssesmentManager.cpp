@@ -19,7 +19,7 @@ Assesment* AssesmentManager::CreateAssesment(string course_code, string assesmen
     ass->total_marks_ = total_marks;
     assesment_.emplace_back(course_code,ass);//std::vector<std::pair<string,Assesment*>> assesment_;//course-code,Assesment
     ofstream out_file("data/assesments_records.txt",std::ios::app);
-    out_file << course_code <<"|"<<assesment_ID<<"|"<<assesment_type<<"|" <<assesment_name<<"|"<<total_marks << "Unkown|Unkown|Unkown" <<endl;
+    out_file << course_code <<"|"<<assesment_ID<<"|"<<assesment_type<<"|" <<assesment_name<<"|" << "|NULL|" <<total_marks <<"|" << 0 <<"|" <<0<<"|" <<0 <<"|" <<endl;
     out_file.close();
     return ass;
 }
@@ -52,7 +52,7 @@ void AssesmentManager::UpdateMarksAndFile(Assesment* assesment) {
         Assesment* current_assesment = ass.second;
         for(auto student_entry: current_assesment->marks_) {
             out_file << ass.first << "|" << ass.second->assesment_ID_ << "|" << ass.second->assesment_type_ << "|"
-            <<ass.second->assesment_name_ << "|"<<student_entry.first<<"|"<<current_assesment->total_marks_<<"|" <<student_entry.second.first <<"|"<<current_assesment->class_average_ << student_entry.second.second<<endl;;
+            <<ass.second->assesment_name_ << "|"<<student_entry.first<<"|"<<current_assesment->total_marks_<<"|" <<student_entry.second.first <<"|"<<current_assesment->class_average_ << "|" << student_entry.second.second<<endl;;
         }        
       }
       //file format for assesment_record.txt would be... 
@@ -62,9 +62,9 @@ void AssesmentManager::UpdateMarksAndFile(Assesment* assesment) {
 
 }
 
-Assesment* AssesmentManager::get_assesment(std::string assesment_id) {
+Assesment* AssesmentManager::get_assesment(string assesment_id, string course_code) {
   for(auto ass: assesment_) {
-        if(ass.second->assesment_ID_ == assesment_id) {
+        if(ass.second->assesment_ID_ == assesment_id && ass.first == course_code) {
             return ass.second;
         }
     }
@@ -72,8 +72,8 @@ Assesment* AssesmentManager::get_assesment(std::string assesment_id) {
 }
 
 
-bool AssesmentManager::MarkStudent(string assesment_id, string roll_number, double obtained_marks) {
-    Assesment* target_assesment = get_assesment(assesment_id);
+bool AssesmentManager::MarkStudent(string course_code, string assesment_id, string roll_number, double obtained_marks) {
+    Assesment* target_assesment = get_assesment(assesment_id, course_code);
     if(target_assesment == nullptr) {
         return false;
     }
@@ -84,7 +84,7 @@ bool AssesmentManager::MarkStudent(string assesment_id, string roll_number, doub
 
 
 bool AssesmentManager::LoadAssesmentsDataFromFile() {
-    ifstream assesment_record("data/assesment_records.txt");
+    ifstream assesment_record("data/assesments_records.txt");
     if(!assesment_record) {
         return false;
     }
@@ -120,7 +120,9 @@ bool AssesmentManager::LoadAssesmentsDataFromFile() {
             new_assesment->total_marks_ = stod(file_str_total_marks);
             assesment_.push_back({course_code,new_assesment});
         }
+        if(file_roll_number != "NULL") {
         new_assesment->AddOrUpdateMarks(file_roll_number, stod(file_str_obtained_marks));
+        }
     }
     
     
@@ -146,8 +148,8 @@ bool AssesmentManager::ViewStudentAssesment(string course_code, string student_r
         }
     auto it = target_assesment->marks_.find(student_roll_number);
     if (it != target_assesment->marks_.end()) {
-            cout <<string(40,'-') <<" Student Grade Book "<<string(40,'-') <<"\n";
-             cout << std::left <<std::setw(20) <<"Student Roll Number" 
+            cout <<string(20,'-') <<" Student Grade Book "<<string(20,'-') <<"\n\n";
+             cout << std::left <<std::setw(20) <<"Roll Number" 
              << std::setw(15) << "Assesment Type"
              << std::setw(20) << "Assesment Name "
              <<std::setw(20) << "Assesment ID" 
@@ -155,7 +157,8 @@ bool AssesmentManager::ViewStudentAssesment(string course_code, string student_r
              <<std::setw(15) << "Obtained Marks" 
              <<std::setw(15) << "percentage %" 
              <<std::setw(15) << "Class Average" <<endl<<endl; 
-             cout << string(100,'-');
+             cout << string(60,'-');
+             cout <<endl;
              cout << std::left <<std::setw(20) << it->first 
              << std::setw(15) <<target_assesment->assesment_type_  
              << std::setw(20) << target_assesment->assesment_name_  
@@ -172,9 +175,3 @@ bool AssesmentManager::ViewStudentAssesment(string course_code, string student_r
     
     return true;
 }
-    
-    
-    
-    
-
-

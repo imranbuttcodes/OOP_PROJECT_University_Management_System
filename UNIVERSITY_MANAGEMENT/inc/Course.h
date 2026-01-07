@@ -8,33 +8,30 @@ class Professor;
 class Student;
 class Course {
 private:
-std::string course_code_;
-std::string title_;
-int students_enrolled_;
+std::string course_code_;//primary course-code like CS101
+
+std::string course_title_;
 float course_credit_hours_;
-std::vector  <std::pair<Student*, StudentPerformance>> students_;                    
-//Professor* professor_assigned_;
-std::vector<Assesment*> assesments_;
-AssesmentManager* assesment_manager_;
+std::string professor_teaching_id_; // course-code(Unique like CS101-A,CS101-B), professor_ids
+std::vector<std::string> students_enrolled_id_; // course-code, student_roll_number                    
+//std::vector<Assesment*> assesments_; 
+std::string assigned_room_id_;
+//AssesmentManager assesment_manager_;
 public:
- 
-Course(std::string course_code, std::string title);
 
+Course(std::string course_code, std::string course_title, std::string room, float course_credit_hours = 0.0f);
 void set_course_code(std::string course_code);
-void set_title(std::string title);
-void AssignStudent(Student* student);
-void AddAssesment(Assesment* assesment);
-Assesment* assesments(std::string assesment_type) const;
-void set_course_credit_hours_(float course_credit_hours_);
+void set_title(std::string course_title);
+void EnrollStudent(std::string student_id);
+void AssignProfessor(std::string professor_id);
+void set_course_credit_hours(float course_credit_hours);
+void set_assigned_room_id(std::string room_ID);
 
-// void set_quiz_marks(double quiz_marks, std::string student_roll_number);
-// void set_assignment_marks(double assignment_marks, std::string student_roll_number);
-// void set_mid_marks(double mid_marks, std::string student_roll_number);
-// void set_final_marks(double quiz_marks, std::string student_roll_number);
-//void AssignProfessor(Professor* professor);
+
+std::string assigned_room_id() const;
 std::string course_code() const;
 float course_credit_hours() const;
-std::string title() const;
-int enrolled_students() const;
-Student* student(std::string student_roll_number) const;
+std::string course_title() const;
+bool IsStudentExist(std::string student_roll_number) const;
+
 };
