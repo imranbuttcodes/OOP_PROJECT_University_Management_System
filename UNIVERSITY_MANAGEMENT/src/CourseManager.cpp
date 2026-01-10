@@ -89,6 +89,18 @@ void CourseManager::ViewAllCourses() {
 
 } 
 
+Course* CourseManager::GetCourse(string course_code) {
+    if(IsCourseExist(course_code)) {
+        cout <<"Error: Course Not found!" << endl;
+        return nullptr;
+    }
+    for(auto& course: courses_) {
+        if(course->course_code() == course_code) {
+            return course;
+        }
+    }
+}
+
 void CourseManager::UpdateCourse(Course* course) {
     if(!IsCourseExist(course->course_code())) {
         cout << "Error: Course " << course->course_code() << "Not found to update!" << endl;

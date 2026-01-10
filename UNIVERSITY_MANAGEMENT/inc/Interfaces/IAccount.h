@@ -1,17 +1,16 @@
 #pragma once
 #include <iostream>
-class Account {
+class  IAccount {
 protected:
-std::string user_name_;
+const std::string user_name_;
 std::string password_;
 
 public:
-Account();
-Account(std::string user_name, std::string password);
+IAccount();
+IAccount(std::string user_name, std::string password);
+std::string password() const;
+virtual bool VerifyIdentity(std::string username = "NULL", std::string password = "NULL") = 0;
+std::string user_name() const;
 
-virtual bool VerifyIdentity() = 0;
-std::string user_name() const {
-    return user_name_;
-}
-virtual ~Account() {}
+virtual ~IAccount() {}
 };

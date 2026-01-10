@@ -99,3 +99,10 @@ void Course::PrintCourse(bool single) const {
     
 }
 
+Course::Course(const Course& other) {
+    this->course_code_ = other.course_code_;
+    this->course_credit_hours_ = other.course_credit_hours_;
+    this->course_title_ = other.course_title_;
+    this->professor_id_ = other.professor_id_;
+    this->students_enrolled_id_ = other.students_enrolled_id_;
+}

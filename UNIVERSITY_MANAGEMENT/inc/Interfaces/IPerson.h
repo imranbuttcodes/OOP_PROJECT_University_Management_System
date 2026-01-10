@@ -1,13 +1,13 @@
 #pragma once
 #include <iostream>
-class Person {
+class IPerson {
 protected:
 std::string name_;
 std::string gender_;
 int age_;
 public:
-Person();
-Person(std::string name, std::string gender, int age);
+IPerson();
+IPerson(std::string name, std::string gender, int age);
 
 void set_name(std::string name);
 void set_gender(std::string gender);
@@ -25,5 +25,5 @@ virtual void AddPrivateInfo(
     std::string father_name,
     std::string date_of_birth
     ) = 0;
-virtual ~Person();
+virtual ~IPerson();
 };

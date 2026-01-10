@@ -17,7 +17,7 @@ std::vector<std::string> students_enrolled_id_; // course-code, student_roll_num
 std::string assigned_room_id_;
 //AssesmentManager assesment_manager_;
 public:
-
+Course(const Course& other);
 Course(std::string course_code, std::string course_title, std::string room, float course_credit_hours = 0.0f);
 void set_course_code(std::string course_code);
 void set_title(std::string course_title);

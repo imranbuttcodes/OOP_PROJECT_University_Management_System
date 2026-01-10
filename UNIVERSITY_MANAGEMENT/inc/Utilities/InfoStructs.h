@@ -1,13 +1,14 @@
+#pragma once
 #include <iostream>
 #include<vector>
 #include <map>
 struct PrivateInfo
 {
-    std::string cnic_;
-    std::string address_;
-    std::string personal_email_;
-    std::string father_name_;
-    std::string date_of_birth_;
+    std::string cnic_ = "NULL";
+    std::string address_ = "NULL";
+    std::string personal_email_ = "NULL";
+    std::string father_name_ = "NULL";
+    std::string date_of_birth_ = "NULL";
 };
 
 
@@ -38,15 +39,3 @@ struct Assesment {
         return sum == 0? 0.0: sum/marks_.size();
     }
 };
-
-struct StudentPerformance {
-int attentance_count_ = 0;
-int total_attantance = 0;
-double attentance_percentage = (attentance_count_ / total_attantance) * 100;
-//total,obtained
-// std::pair<double,double> quiz_marks_; 
-// std::pair<double,double> assignment_marks_;
-// std::pair<double,double> mid_marks_;
-// std::pair<double,double> finals_marks_;
-};
-

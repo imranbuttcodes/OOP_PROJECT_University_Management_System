@@ -3,7 +3,7 @@
 #include "Interfaces/IAccount.h"
 #include "Interfaces/IPersistance.h"
 
-class Admin: public Person, public Account {
+class Admin: public IPerson, public IAccount {
 private:
 
 

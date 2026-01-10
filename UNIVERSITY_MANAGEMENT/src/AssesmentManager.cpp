@@ -71,6 +71,14 @@ Assesment* AssesmentManager::get_assesment(string assesment_id, string course_co
     return nullptr;
 }
 
+bool AssesmentManager::IsAssesmentIdExist(string course_code, string assesment_Id) {
+    for(auto assesment: assesment_) {
+        if(assesment.first == course_code && assesment.second->assesment_ID_ == assesment_Id) {
+            return true;
+        }
+    }
+    return false;
+}
 void AssesmentManager::ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student) {
 //
 }

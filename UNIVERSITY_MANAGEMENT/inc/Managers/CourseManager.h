@@ -15,5 +15,6 @@ bool IsCourseExist(std::string course_code);
 void LoadCourseDataFromFile();
 void WriteOrUpdateCourse();
 void UpdateCourse(Course* course);
+Course* GetCourse(string course_code);
 ~CourseManager();
 };
