@@ -1,6 +1,6 @@
 #include <iomanip>
 #include "Course.h"
-#include "Professor.h"
+//#include "Professor.h"
 using std::cout;
 using std::endl;
 using std::string;
@@ -75,27 +75,27 @@ bool Course::IsStudentExist(string student_roll_number) const {
 
 void Course::PrintCourse(bool single) const {
     if(single) {
-    cout <<" "<< string(95,'=') <<" "<< endl;
-    cout <<"|       Course Details          |"<<endl;
-    cout <<" "<< string(70,'=') <<" "<< endl;
+    cout <<" "<< string(100,'=') <<" "<< endl;
+    cout <<"|       \t\t\t\tCourse Details\t\t\t\t                     |"<<endl;
+    cout <<" "<< string(100,'=') <<" "<< endl;
     cout << std::left << std::setw(15) << "Course Code"
-    << std::setw(15) << "Course Title"
+    << std::setw(25) << "Course Title"
     << std::setw(15) << "Credit Hourse" 
-    << std::setw(20) << "Total Enrolled Students"
+    << std::setw(20) << "Enrolled Students"
     << std::setw(15) <<"Assigned Room"
     << std::setw(15) <<"Instructor" 
     << endl
-    << string(95,'=') << endl;
+    << string(100,'=') << endl;
     }
 
     cout << std::left << std::setw(15) << course_code_
-    << std::setw(15) << course_title_
+    << std::setw(25) << course_title_
     << std::setw(15) << course_credit_hours_ 
     << std::setw(20) << students_enrolled_id_.size()
     << std::setw(15) <<assigned_room_id_
     << std::setw(15) << (professor_id_ != "NULL" ? professor_id_: "Not assigned yet")
     << endl
-    << string(70,'=') << endl;
+    << string(100,'=') << endl;
     
 }
 

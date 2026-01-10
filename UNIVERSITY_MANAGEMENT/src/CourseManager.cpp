@@ -14,7 +14,7 @@ using std::endl;
 
 
 bool CourseManager::IsCourseExist(std::string course_code) {
-
+    LoadCourseDataFromFile();
     for(auto course: courses_) {
         if(course->course_code() == course_code) {
             return true;
@@ -71,17 +71,17 @@ void CourseManager::ViewAllCourses() {
         cout <<"Error: No courses created yet!" << endl;
         return;
     }
-    cout <<" "<< string(95,'=') <<" "<< endl;
-    cout <<"|       Course Details          |"<<endl;
-    cout <<" "<< string(95,'=') <<" "<< endl;
+    cout <<" "<< string(100,'=') <<" "<< endl;
+    cout <<"|       \t\t\t\tCourse Details\t\t\t\t                     |"<<endl;
+    cout <<" "<< string(100,'=') <<" "<< endl;
     cout << std::left << std::setw(15) << "Course Code"
-    << std::setw(15) << "Course Title"
+    << std::setw(25) << "Course Title"
     << std::setw(15) << "Credit Hourse" 
-    << std::setw(20) << "Total Enrolled Students"
+    << std::setw(20) << "Enrolled Students"
     << std::setw(15) <<"Assigned Room"
     << std::setw(15) <<"Instructor" 
     << endl
-    << string(95,'=') << endl;
+    << string(100,'=') << endl;
 
     for(auto& course: courses_) {
         course->PrintCourse(false);
@@ -112,7 +112,7 @@ void CourseManager::WriteOrUpdateCourse() {
     }
     for(auto& course: courses_) {
         write_courses<<course->course_code()<< "|" << course->course_title() << "|" << course->course_credit_hours()
-        << course->professor_teaching_id()<<"|" << course->assigned_room_id()<<"|";
+        <<"|" << course->professor_teaching_id()<<"|" << course->assigned_room_id()<<"|";
         for(std::string student_id: course->student_enrolled_ids()) {
             write_courses << student_id <<",";
         }
