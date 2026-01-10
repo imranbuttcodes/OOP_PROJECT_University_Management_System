@@ -1,14 +1,15 @@
+#include <iomanip>
 #include "Course.h"
-
+#include "Professor.h"
 using std::cout;
 using std::endl;
 using std::string;
 
-Course::Course(std::string course_code, std::string course_title, std::string room, float course_credit_hours = 0.0f) {
+Course::Course(std::string course_code, std::string course_title, std::string room, float course_credit_hours) {
     course_code_ = course_code;
     course_title_ = course_title;
     course_credit_hours_ = course_credit_hours;
-    professor_teaching_id_ = "NULL";
+    professor_id_ = "NULL";
     assigned_room_id_ = room;
 }
 
@@ -25,8 +26,9 @@ void Course::EnrollStudent(std::string student_id) {
     students_enrolled_id_.push_back(student_id);
 }
 
-void Course::AssignProfessor(std::string professor_id) {
-    professor_teaching_id_ = professor_id;
+void Course::AssignProfessor(std::string professor_id)
+{
+    professor_id_ = professor_id;
 }
 
 void Course::set_course_credit_hours(float course_credit_hours) {
@@ -53,6 +55,14 @@ std::string Course::course_title() const {
     return course_title_;
 }
 
+string Course::professor_teaching_id() const {
+    return professor_id_;
+}
+
+std::vector<std::string> Course::student_enrolled_ids() const {
+    return students_enrolled_id_;
+}
+
 bool Course::IsStudentExist(string student_roll_number) const {
     for(const auto& students_roll: students_enrolled_id_) {
         if(students_roll == student_roll_number) {
@@ -63,4 +73,29 @@ bool Course::IsStudentExist(string student_roll_number) const {
 }
 
 
+void Course::PrintCourse(bool single) const {
+    if(single) {
+    cout <<" "<< string(95,'=') <<" "<< endl;
+    cout <<"|       Course Details          |"<<endl;
+    cout <<" "<< string(70,'=') <<" "<< endl;
+    cout << std::left << std::setw(15) << "Course Code"
+    << std::setw(15) << "Course Title"
+    << std::setw(15) << "Credit Hourse" 
+    << std::setw(20) << "Total Enrolled Students"
+    << std::setw(15) <<"Assigned Room"
+    << std::setw(15) <<"Instructor" 
+    << endl
+    << string(95,'=') << endl;
+    }
+
+    cout << std::left << std::setw(15) << course_code_
+    << std::setw(15) << course_title_
+    << std::setw(15) << course_credit_hours_ 
+    << std::setw(20) << students_enrolled_id_.size()
+    << std::setw(15) <<assigned_room_id_
+    << std::setw(15) << (professor_id_ != "NULL" ? professor_id_: "Not assigned yet")
+    << endl
+    << string(70,'=') << endl;
+    
+}
 
