@@ -5,5 +5,6 @@
 class IStudentPortalReadOnly {
 public:
 virtual bool ViewStudentAssesment(std::string course_code, std::string student_roll_number, std::string assesment_id) = 0;
+virtual void ViewStudentAttendance(std::string course_code, std::string student_roll_number,bool single_student) = 0;
 virtual ~IStudentPortalReadOnly();
 };

@@ -26,13 +26,13 @@ void GradeStudent(std::string student_roll_number, std::string course_code);
 
 Course* course(std::string course_code);
 
-Assesment* GetAssesmentToUpdate(std::string assesment_type, std::string course_code); //for assesment work like adding marks/updating marks
-void AssesmentHandler();
+//Assesment* GetAssesmentToUpdate(std::string assesment_type, std::string course_code); //for assesment work like adding marks/updating marks
+//void AssesmentHandler();
 void MarkAttendance(std::string student_roll_no, std::string course_code); 
 
-bool CreateAssesment(std::string course_code, Assesment& assesment); //it will fill the assesment struct with like(total marks, assesment name, assesment type.....)
+//bool CreateAssesment(std::string course_code, Assesment& assesment); //it will fill the assesment struct with like(total marks, assesment name, assesment type.....)
 void ViewProfile() const override;
-bool VerifyIdentity(std::string user_name, std::string password) override;
+bool VerifyIdentity() override;
 void AddPrivateInfo(
     std::string cnic,
     std::string address,

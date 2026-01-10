@@ -71,10 +71,12 @@ Assesment* AssesmentManager::get_assesment(string assesment_id, string course_co
     return nullptr;
 }
 
-
+void AssesmentManager::ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student) {
+//
+}
 bool AssesmentManager::MarkStudent(string course_code, string assesment_id, string roll_number, double obtained_marks) {
     Assesment* target_assesment = get_assesment(assesment_id, course_code);
-    if(target_assesment == nullptr) {
+    if(target_assesment ==      nullptr) {
         return false;
     }
     target_assesment->AddOrUpdateMarks(roll_number,obtained_marks);

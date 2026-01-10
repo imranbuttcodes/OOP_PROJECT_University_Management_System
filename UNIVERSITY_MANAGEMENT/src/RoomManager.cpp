@@ -112,10 +112,4 @@ std::string RoomManager::GenerateRoomID(std::string building_id) {
     ++max_room_id;
     return building_id + "-" + std::to_string(max_room_id);
     
-    
-
 }
-
-
-
-    

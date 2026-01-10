@@ -13,5 +13,6 @@ void UpdateMarksAndFile(Assesment* assesment);
 bool MarkStudent(string course_code, string assesment_id, string roll_number, double obtained_marks);
 
 bool ViewStudentAssesment(string course_code, string student_roll_number, string assesment_id) override;//student can only use this function
+void ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student) override;
 bool LoadAssesmentsDataFromFile();
 };

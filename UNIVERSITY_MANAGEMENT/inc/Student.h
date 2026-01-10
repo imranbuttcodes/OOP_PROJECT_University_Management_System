@@ -34,7 +34,7 @@ std::string department() const;
 std::string program() const;
 
 void ViewProfile() const override;
-bool VerifyIdentity(std::string user_name, std::string password) override;
+bool VerifyIdentity() override;
 void EnrollCourse(Course* course);
 void RequestCourseWithdraw() const;
 
@@ -45,6 +45,4 @@ void AddPrivateInfo(
     std::string father_name,
     std::string date_of_birth
     ) override;
-
-
 };

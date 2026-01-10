@@ -1,9 +1,11 @@
+#include <algorithm>
+#include <string>
 #include "inc/Professor.h"
 #include "Course.h"
 using std::cout;
 using std::endl;
 using std::string;
-#include <algorithm>
+
 
 Professor::Professor(string name, string gender,
      int age, string role, std::string employee_email_id, string employee_id, string pasword):
@@ -49,17 +51,7 @@ Course* Professor::course(std::string course_code) {
 }
 
 
-void Professor::AddPrivateInfo(
-    std::string cnic,
-    std::string address,
-    std::string personal_email,
-    std::string father_name) 
-    {
-        professor_private_info_.address_ = address;
-        professor_private_info_.cnic_ = cnic;
-        professor_private_info_.personal_email_ = personal_email;
-        professor_private_info_.father_name_ = father_name;
-    }
+
 
 
 void Professor::ViewProfile() const  {
@@ -79,54 +71,72 @@ void Professor::ViewProfile() const  {
     
 }
 
-bool Professor::VerifyIdentity(std::string user_name, std::string password) {
+bool Professor::VerifyIdentity() {
+    std::string user_name, password;
+    cout << "Enter user_name: " << endl;
+    getline(std::cin,user_name);
+    cout <<"Enter Password: " << endl;
+    getline(std::cin,password);
     return user_name_ == user_name && password_ == password;
 }
 
 
-bool Professor::CreateAssesment(std::string course_code, Assesment& assesment) { //it will fill the assesment struct by asking the assesment things 
-    for (auto course: courses_teaching_) {
-        if(course->course_code() == course_code) {
-            course->AddAssesment(&assesment);
-            return true;
-        }
-    }
-    return false;
-}
+// bool Professor::CreateAssesment(std::string course_code, Assesment& assesment) { //it will fill the assesment struct by asking the assesment things 
+//     for (auto course: courses_teaching_) {
+//         if(course->course_code() == course_code) {
+//             course->AddAssesment(&assesment);
+//             return true;
+//         }
+//     }
+//     return false;
+// }
 
-Assesment* Professor::GetAssesmentToUpdate(std::string assesment_type, std::string course_code) {
-    for (auto course: courses_teaching_) {
-        if(course->course_code() == course_code && course->assesments(assesment_type)->assesment_type_ == assesment_type) {
-         return course->assesments(assesment_type);
-        }
-    }
-    return nullptr;
-}
+// Assesment* Professor::GetAssesmentToUpdate(std::string assesment_type, std::string course_code) {
+//     for (auto course: courses_teaching_) {
+//         if(course->course_code() == course_code && course->assesments(assesment_type)->assesment_type_ == assesment_type) {
+//          return course->assesments(assesment_type);
+//         }
+//     }
+//     return nullptr;
+// }
 
 
-void Professor::AssesmentHandler() {
-    string choice = 0;
-    while (choice != "4") {
-        std::cout << "\n--- ASSESSMENT MENU ---\n";
-        std::cout << "1. Add New Assessment\n";
-        std::cout << "2. Update Marks\n";
-        std::cout << "3. Save & Exit\n";
-        std::cout << "4. Go Back\n";
-        std::cout << "Enter Choice: ";
-        std::cin >> choice;
-        if (choice == "1") {
-            string name, id, type,course_code;
-            std::cout << "Enter Assessment ID: "; std::cin >> id;
+// void Professor::AssesmentHandler() {
+//     string choice = 0;
+//     while (choice != "4") {
+//         std::cout << "\n--- ASSESSMENT MENU ---\n";
+//         std::cout << "1. Add New Assessment\n";
+//         std::cout << "2. Update Marks\n";
+//         std::cout << "3. Save & Exit\n";
+//         std::cout << "4. Go Back\n";
+//         std::cout << "Enter Choice: ";
+//         std::cin >> choice;
+//         if (choice == "1") {
+//             string name, id, type,course_code;
+//             std::cout << "Enter Assessment ID: "; std::cin >> id;
             
-            // DELEGATE logic to the manager
-            manager_->createAssessment(id, name, type); 
-        }
-        else if (choice == 2) {
-             // You need to find the assessment first, then pass it to your update function
-             // Note: You might need a getter in your manager like manager_->getAssessment(id)
+//             // DELEGATE logic to the manager
+//             manager_->createAssessment(id, name, type); 
+//         }
+//         else if (choice == 2) {
+//              // You need to find the assessment first, then pass it to your update function
+//              // Note: You might need a getter in your manager like manager_->getAssessment(id)
              
-             // manager_->UpdateMarksAndFile( ... );
-        }
-    }
-}
+//              // manager_->UpdateMarksAndFile( ... );
+//         }
+//     }
+// }
 
+void Professor::AddPrivateInfo (
+    std::string cnic,
+    std::string address,
+    std::string personal_email,
+    std::string father_name,
+    std::string date_of_birth
+    ) {
+        professor_private_info_.address_ = address;
+        professor_private_info_.cnic_ = cnic;
+        professor_private_info_.personal_email_ = personal_email;
+        professor_private_info_.father_name_ = father_name;
+        professor_private_info_.date_of_birth_ = date_of_birth;
+    }
