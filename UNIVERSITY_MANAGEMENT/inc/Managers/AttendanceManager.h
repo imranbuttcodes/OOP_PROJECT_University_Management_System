@@ -21,6 +21,7 @@ double status_percentage = 0.0;
 class AttendanceManager: public IStudentPortalReadOnly {
 private:
 std::vector<AttendenceRecord> attendance_records_;
+bool ViewStudentAssesment(std::string course_code, std::string student_roll_number, std::string assesment_id) override;
 public:
 void MarkAttendance(std::string course_code, std::string student_roll_number, std::string date, std::string attendance_status);
 bool LoadAttendanceRecordFromFile();

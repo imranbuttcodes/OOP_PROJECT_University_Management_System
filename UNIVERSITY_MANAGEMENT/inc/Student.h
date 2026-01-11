@@ -38,7 +38,7 @@ std::string program() const;
 PrivateInfo& GetPrivateInfo();
 std::vector<std::string> GetStudentEnrolledCourse();
 
-void RunStudentPanel(IStudentPortalReadOnly* portal_viewer, StudentManager* student_manager);
+void RunStudentPanel(IStudentPortalReadOnly* portal_viewer_assesment,IStudentPortalReadOnly* portal_viewer_attandance, StudentManager* student_manager);
 void ViewProfile() const override;
 void ViewPrivateInfo() const;
 bool VerifyIdentity(std::string username = "NULL", std::string password = "NULL") override;

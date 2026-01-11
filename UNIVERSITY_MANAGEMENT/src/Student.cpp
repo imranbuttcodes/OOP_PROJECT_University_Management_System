@@ -67,7 +67,7 @@ void Student::ViewPrivateInfo() const {
     cout << "Personal Email: " << student_private_info_.personal_email_ << endl;
 }
 
-void Student::RunStudentPanel(IStudentPortalReadOnly* portal_viewer,StudentManager* student_manager) {
+void Student::RunStudentPanel(IStudentPortalReadOnly* portal_viewer_assesment,IStudentPortalReadOnly* portal_viewer_attandance ,StudentManager* student_manager) {
 
 while(true) {
         cout << "\n================ STUDENT DASHBOARD ================\n";
@@ -122,14 +122,14 @@ while(true) {
             std::string course_code;
             std::cout << "Enter Course Code: ";
             getline(std::cin, course_code);
-            portal_viewer->ViewStudentAttendance(course_code, roll_number_,true);
+            portal_viewer_attandance->ViewStudentAttendance(course_code, roll_number_,true);
         } else if (choice == "6") {
             std::string course_code, assesment_id;
             cout << "Enter course-code";
             getline(std::cin,course_code);
             cout << "Enter Assesment-ID";
             getline(std::cin,assesment_id);
-            portal_viewer->ViewStudentAssesment(course_code,roll_number_,assesment_id);
+            portal_viewer_assesment->ViewStudentAssesment(course_code,roll_number_,assesment_id);
         }
         else if (choice == "0") {
             break;

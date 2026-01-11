@@ -224,6 +224,23 @@ Professor* ProfessorManager::GetProfessor(std::string professor_id) {
     return nullptr;
 }
 
+Professor* ProfessorManager::LoginProfessor() {
+    string username, password;
+    cout << "----------------- Faculty Login Form -----------------" << endl;
+    cout << "Enter username: " ;
+    getline(std::cin,username);
+    cout << "Enter Password: ";
+    getline(std::cin,password);
+    for (auto& professor: professors_) {
+        if (professor->user_name()== username && professor->password() == password ) {
+            return professor;
+        }
+    }
+    cout << "Invalid username or password";
+    return nullptr;
+}
+
+
 
 void ProfessorManager::AssignCourseToProfessor(string professor_id, string course_code) {
     LoadProfessors();

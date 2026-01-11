@@ -1,7 +1,6 @@
 #pragma once
 #include "Interfaces/IPerson.h"
 #include "Interfaces/IAccount.h"
-#include "Interfaces/IPersistance.h"
 #include "Utilities/InfoStructs.h"
 #include "Managers/CourseManager.h"
 #include "Managers/StudentManager.h"
@@ -23,6 +22,7 @@ void ManageCourses(CourseManager* course_manager);
 bool VerifyIdentity(std::string username, std::string password) override;
 void ViewProfile() const override;
 void EditProfile();
+bool Login();
 void AddPrivateInfo(
     std::string cnic,
     std::string address,

@@ -8,6 +8,7 @@ std::vector<Professor*> professors_;
 public:
 void AddProfessor(Professor* professor);
 void AssignCourseToProfessor(string professor_id, string course_code);
+Professor* LoginProfessor();
 bool IsProfessorExist(std::string professor_id);
 void LoadProfessors(); // it will load and populate the professor's 
 void WriteOrUpdateProfessor();

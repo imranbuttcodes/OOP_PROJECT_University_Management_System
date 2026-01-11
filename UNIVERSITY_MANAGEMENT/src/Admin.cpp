@@ -42,6 +42,14 @@ void Admin::ViewProfile() const  {
 
 }
 
+bool Admin::Login() {
+    cout << "|"  << string(70,'=') << "|" <<endl;
+    cout <<"        \t\tAdmin Login Form\t\t        \n";
+    cout << "|"  << string(70,'=') << "|" <<endl;
+    return VerifyIdentity("",""); 
+}
+
+
 void Admin::WriteOrUpdateAdminInfo() {
     std::ofstream write_file("data/admin.txt");
     if(!write_file) {
@@ -137,7 +145,6 @@ void Admin::EditProfile() {
 }
 
 bool Admin::VerifyIdentity(std::string username, std::string password) {
-    cout << "Verify your Credentials...\n\n";
     cout << "Enter username: ";
     getline(cin,username);
     cout << "Enter Password: ";

@@ -84,7 +84,7 @@ void AttendanceManager::ViewStudentAttendance(std::string course_code, std::stri
             found_any = true;
         }
     }
-    
+
     if(found_any) {
         ViewAttandanceSummery(course_code,student_roll_number,single_student);
     } else {
@@ -134,6 +134,9 @@ void AttendanceManager::ViewAllStudentsAttendanceReport(string course_code) {
         }
     }
     
+}
+bool ViewStudentAssesment(std::string course_code, std::string student_roll_number, std::string assesment_id) {
+    //
 }
 
 void AttendanceManager::ViewAttandanceSummery(std::string course_code, std::string student_roll_number, bool single) {

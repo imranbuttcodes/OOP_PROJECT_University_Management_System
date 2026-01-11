@@ -12,5 +12,5 @@ std::string password() const;
 virtual bool VerifyIdentity(std::string username = "NULL", std::string password = "NULL") = 0;
 std::string user_name() const;
 
-virtual ~IAccount() {}
+virtual ~IAccount() = default;
 };
