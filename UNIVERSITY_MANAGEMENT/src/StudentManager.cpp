@@ -107,10 +107,13 @@ void StudentManager::RemoveStudent(string roll_number) {
             if(it != students_.end()) {
                 students_.erase(it);
                 WriteOrUpdateStudents();
+                cout << "Student " << roll_number <<" removed Successfully!" << endl;
                 return;
             }
         }
     } 
+    
+
 
 }
 

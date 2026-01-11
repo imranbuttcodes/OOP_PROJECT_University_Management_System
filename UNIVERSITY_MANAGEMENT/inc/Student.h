@@ -2,12 +2,13 @@
 
 #include "Interfaces/IPerson.h"
 #include "Interfaces/IAccount.h"
-//#include "Interfaces/IPersistance.h"
-#include "Interfaces/IStudentPortalReadOnly.h"
 #include "Utilities/InfoStructs.h"
 
 class Course;
-
+class StudentManager;
+class AssesmentManager;
+class AttendanceManager;
+class IStudentPortalReadOnly;
 class Student: public IPerson, public IAccount {
 private:
 const std::string roll_number_;
@@ -24,7 +25,7 @@ std::string department,
 std::string program);
 
 
-
+void EditStudentProfile();
 void set_student_private_info(std::string cnic = "NULL",
     std::string address = "NULL",
     std::string personal_email = "NULL",
@@ -36,6 +37,8 @@ std::string department() const;
 std::string program() const;
 PrivateInfo& GetPrivateInfo();
 std::vector<std::string> GetStudentEnrolledCourse();
+
+void RunStudentPanel(IStudentPortalReadOnly* portal_viewer, StudentManager* student_manager);
 void ViewProfile() const override;
 void ViewPrivateInfo() const;
 bool VerifyIdentity(std::string username = "NULL", std::string password = "NULL") override;

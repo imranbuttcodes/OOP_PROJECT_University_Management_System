@@ -5,6 +5,8 @@
 #include "Utilities/InfoStructs.h"
 #include "Managers/AssesmentManager.h"
 #include "Managers/AttendanceManager.h"
+#include "Managers/StudentManager.h"
+#include "Managers/CourseManager.h"
 class Course;
 
 class Professor: public IPerson, public IAccount{
@@ -19,6 +21,7 @@ std::string employee_email_id_;
 //file format:
 //employee_id|password|employee_email_id|privateInfo(cinic,address....)|coursesteaching_id1,coursesteaching_id2...
 public:
+void RunProfessorPanel(AttendanceManager* attendane_manager, AssesmentManager* assesment_manager, CourseManager* course_manager, StudentManager* student_manager);
 Professor(std::string name, std::string gender, int age, 
     std::string role, std::string employee_email_id, std::string employee_id, std::string password);
 void AddCourse(Course* course);

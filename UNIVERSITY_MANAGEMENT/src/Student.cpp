@@ -1,6 +1,13 @@
 #include <string>
 #include "Student.h"
 #include "Course.h"
+#include "Managers/CourseManager.h"
+#include "Utilities/InputValidator.h"
+#include "Managers/StudentManager.h"
+#include "Managers/AssesmentManager.h"
+#include "Managers/AttendanceManager.h"
+#include "Interfaces/IStudentPortalReadOnly.h"
+
 using std::cout;
 using std::endl;
 Student::Student(std::string name, int age, std::string gender, std::string roll_number, std::string password, 
@@ -60,6 +67,79 @@ void Student::ViewPrivateInfo() const {
     cout << "Personal Email: " << student_private_info_.personal_email_ << endl;
 }
 
+void Student::RunStudentPanel(IStudentPortalReadOnly* portal_viewer,StudentManager* student_manager) {
+
+while(true) {
+        cout << "\n================ STUDENT DASHBOARD ================\n";
+        cout << "1. View My Profile\n";
+        cout << "2. View Enrolled Courses\n";
+        cout << "3. Enroll Course\n";
+        cout << "4. Edit Profile\n";
+        cout << "5. Check Attendance\n";
+        cout << "6. Check Grades / Results\n";
+        cout << "0. Logout\n";
+        cout << "===================================================\n";
+        std::string choice = InputValidator::GetValidInput<std::string>("Enter your choice: ");
+        if(std::cin.peek() == '\n') 
+        std::cin.ignore();
+
+        if (choice == "1") {
+            ViewProfile();
+        } 
+        else if (choice == "2") {
+            cout << "\n--- Enrolled Courses ---\n";
+            if(enrolled_courses_id_.empty()) cout << "No courses enrolled.\n";
+            else {
+                for(const auto& c : enrolled_courses_id_) {
+                    cout << "- " << c << endl;
+                }
+            }
+        } else if (choice == "3") {
+            cout <<"----------------- Available courses -----------------\n\n";
+            CourseManager course_manager;
+            course_manager.LoadCourseDataFromFile();
+            course_manager.ViewAllCourses();
+            while (true)
+            {
+                std::string course_code;
+                cout <<"Enter course-code to enroll in: ";
+                getline(std::cin,course_code);
+                if(!course_manager.IsCourseExist(course_code)) {
+                    cout << "Invalid Course code entered!" << endl;
+                    continue;
+                }
+                EnrollCourse(course_code);
+                cout << "Course Added successfully!" << endl; 
+                break;
+            }
+            student_manager->WriteOrUpdateStudents();
+        }
+        else if (choice == "4") {
+            EditStudentProfile();
+            student_manager->WriteOrUpdateStudents();
+        } 
+        else if (choice == "5") {
+            std::string course_code;
+            std::cout << "Enter Course Code: ";
+            getline(std::cin, course_code);
+            portal_viewer->ViewStudentAttendance(course_code, roll_number_,true);
+        } else if (choice == "6") {
+            std::string course_code, assesment_id;
+            cout << "Enter course-code";
+            getline(std::cin,course_code);
+            cout << "Enter Assesment-ID";
+            getline(std::cin,assesment_id);
+            portal_viewer->ViewStudentAssesment(course_code,roll_number_,assesment_id);
+        }
+        else if (choice == "0") {
+            break;
+        } 
+        else {
+            cout << "Invalid Option.\n";
+        }
+    }
+
+}
 
 bool Student::VerifyIdentity(std::string username, std::string password)  {
     return (username == user_name_) && (password == password_ );
@@ -107,4 +187,77 @@ void Student::CheckAttendance(IStudentPortalReadOnly* portal, std::string course
 
 std::vector<std::string> Student::GetStudentEnrolledCourse() {
     return enrolled_courses_id_;
+}
+
+
+void Student::EditStudentProfile() {
+
+     while(true) { 
+    cout << "\n================ UPDATE PROFILE MENU ================\n";
+        cout << "1.  Name          (" << name_ << ")\n";
+        cout << "2.  Gender        (" << gender_ << ")\n";
+        cout << "3.  Age           (" << age_ << ")\n";
+        cout << "4.  CNIC          (" << student_private_info_.cnic_ << ")\n";
+        cout << "5.  Father Name   (" << student_private_info_.father_name_ << ")\n";
+        cout << "6.  Date of Birth (" << student_private_info_.date_of_birth_ << ")\n";
+        cout << "7.  Address       (" << student_private_info_.address_ << ")\n";
+        cout << "8.  Change Password\n";
+        cout << "9.  Change Email\n";
+        cout << "0.  Back\n";
+        cout << "=====================================================\n";
+        std::string choice = InputValidator::GetValidInput<std::string>("Select Field to Edit: ");
+        if (choice == "0")  break;
+        if (choice == "1") {
+            name_ = InputValidator::InputName();
+            cout << "Name changed Successfully!"<<endl;
+        } else if (choice == "2") {
+        gender_ = InputValidator::InputGender();
+    } else if (choice == "3") {
+        int age = InputValidator::GetValidInput<int>("Enter your age");
+        if (age < 0 || age > 130)    {
+            cout <<"Invalid Age!";
+            continue;
+        } age_ = age;
+    } else if (choice == "4") {
+        student_private_info_.cnic_ = InputValidator::InputCNIC();
+    } else if (choice == "5") {
+        student_private_info_.father_name_ = InputValidator::InputFatherName();
+    } else if (choice == "6") {
+        student_private_info_.date_of_birth_ = InputValidator::InputDOB();
+    } else if (choice == "7") {
+        student_private_info_.address_ = InputValidator::InputAddress();
+    } else if (choice == "8") {
+        std::string temp_user_name,temp_password;
+        cout << "Enter user_name";
+        getline(std::cin,temp_user_name);
+        cout << "Enter Password";
+        getline(std::cin,temp_password);
+        if(!VerifyIdentity(user_name_,password_)) {
+            cout << "Invalid username or password!" << endl;
+            continue;
+        }
+        while (true) {
+            cout <<"Enter new passowrd!" << endl;
+            std::string password = InputValidator::InputPassword();
+            if(password == password_) {
+                cout << "New password can't be old password!"<<endl;
+                continue;
+            } 
+            password_ = password;
+            cout << "Password changed!" << endl;
+            break;
+        }
+        
+    } else if (choice == "9") {
+        student_private_info_.personal_email_ = InputValidator::InputEmail();
+    }
+    else if (choice == "0") {
+        cout << "Saving changes...";
+        
+        break;
+    } else {
+        cout << "Invalid Choice !" << endl;
+    }
+}
+
 }

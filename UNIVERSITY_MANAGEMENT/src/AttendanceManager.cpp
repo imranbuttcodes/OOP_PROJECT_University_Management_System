@@ -73,12 +73,24 @@ void AttendanceManager::ViewStudentAttendance(std::string course_code, std::stri
         << std::setw(15) << "Status"
         << endl << string(70,'-') <<endl;
     }
-    AttendenceRecord* record = GetStudentRecord(course_code, student_roll_number);
-    cout << std::left << std::setw(15) << record->course_id_ 
-    << std::setw(15) << record->student_id_ 
-    << std::setw(15) <<record->date_
-    << std::setw(15) <<record->status_
-    << endl << string(70,'-') <<endl;
+    bool found_any = false;
+    for (auto student_record: attendance_records_) {
+        if(student_record.student_id_ == student_roll_number && student_record.course_id_ == course_code) {
+            cout << std::left << std::setw(15) << student_record.course_id_ 
+                 << std::setw(20) << student_record.student_id_ 
+                 << std::setw(15) << student_record.date_
+                 << std::setw(10) << (student_record.status_ == "P" ? "Present" : "Absent")
+                 << endl;
+            found_any = true;
+        }
+    }
+    
+    if(found_any) {
+        ViewAttandanceSummery(course_code,student_roll_number,single_student);
+    } else {
+        cout <<"No record found for student id "<< student_roll_number << endl;
+    }
+
 
 }
 

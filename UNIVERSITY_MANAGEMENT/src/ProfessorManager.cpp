@@ -223,3 +223,22 @@ Professor* ProfessorManager::GetProfessor(std::string professor_id) {
     }
     return nullptr;
 }
+
+
+void ProfessorManager::AssignCourseToProfessor(string professor_id, string course_code) {
+    LoadProfessors();
+    if (!IsProfessorExist(professor_id)) {
+        cout << "Professor with id "<< professor_id << " not found" << endl;
+        return;
+    }
+    CourseManager cm;
+    cm.LoadCourseDataFromFile();
+    if (cm.IsCourseExist(course_code)) {
+        cout << "Course not found!" << endl;
+        return;
+    }
+    Course* temp_course = cm.GetCourse(course_code);
+    Professor* professor = GetProfessor(professor_id);
+    professor->AddCourse(temp_course);
+}
+
