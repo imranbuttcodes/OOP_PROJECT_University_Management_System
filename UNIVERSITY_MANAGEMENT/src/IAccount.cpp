@@ -12,6 +12,4 @@ std::string IAccount::password() const {
     return password_;
 }
 
- IAccount::~IAccount() {
 
-}

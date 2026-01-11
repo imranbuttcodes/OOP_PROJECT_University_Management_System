@@ -81,7 +81,7 @@ while(true) {
         cout << "===================================================\n";
         std::string choice = InputValidator::GetValidInput<std::string>("Enter your choice: ");
         if(std::cin.peek() == '\n') 
-        std::cin.ignore();
+            std::cin.ignore();
 
         if (choice == "1") {
             ViewProfile();
@@ -98,7 +98,7 @@ while(true) {
             cout <<"----------------- Available courses -----------------\n\n";
             CourseManager course_manager;
             course_manager.LoadCourseDataFromFile();
-            course_manager.ViewAllCourses();
+            if(!course_manager.ViewAllCourses())    continue;
             while (true)
             {
                 std::string course_code;
@@ -122,12 +122,16 @@ while(true) {
             std::string course_code;
             std::cout << "Enter Course Code: ";
             getline(std::cin, course_code);
+            if(!IsCourseALreadyEnrolled(course_code)) {
+                cout << "Course not exist!" << endl;
+                continue;
+            }
             portal_viewer_attandance->ViewStudentAttendance(course_code, roll_number_,true);
         } else if (choice == "6") {
             std::string course_code, assesment_id;
-            cout << "Enter course-code";
+            cout << "Enter course-code: ";
             getline(std::cin,course_code);
-            cout << "Enter Assesment-ID";
+            cout << "Enter Assesment-ID: ";
             getline(std::cin,assesment_id);
             portal_viewer_assesment->ViewStudentAssesment(course_code,roll_number_,assesment_id);
         }
@@ -206,12 +210,17 @@ void Student::EditStudentProfile() {
         cout << "0.  Back\n";
         cout << "=====================================================\n";
         std::string choice = InputValidator::GetValidInput<std::string>("Select Field to Edit: ");
+        if(std::cin.peek() == '\n')     std::cin.ignore();
         if (choice == "0")  break;
         if (choice == "1") {
             name_ = InputValidator::InputName();
+                    //if(std::cin.peek() == '\n')     std::cin.ignore();
+
             cout << "Name changed Successfully!"<<endl;
         } else if (choice == "2") {
         gender_ = InputValidator::InputGender();
+                if(std::cin.peek() == '\n')     std::cin.ignore();
+
     } else if (choice == "3") {
         int age = InputValidator::GetValidInput<int>("Enter your age");
         if (age < 0 || age > 130)    {
@@ -219,14 +228,21 @@ void Student::EditStudentProfile() {
             continue;
         } age_ = age;
     } else if (choice == "4") {
+        if(std::cin.peek() == '\n')     std::cin.ignore();
         student_private_info_.cnic_ = InputValidator::InputCNIC();
     } else if (choice == "5") {
+       // if(std::cin.peek() == '\n')     std::cin.ignore();
         student_private_info_.father_name_ = InputValidator::InputFatherName();
+
     } else if (choice == "6") {
+        //if(std::cin.peek() == '\n')     std::cin.ignore();
         student_private_info_.date_of_birth_ = InputValidator::InputDOB();
     } else if (choice == "7") {
+        //if(std::cin.peek() == '\n')     std::cin.ignore();
         student_private_info_.address_ = InputValidator::InputAddress();
     } else if (choice == "8") {
+        if(std::cin.peek() == '\n')     std::cin.ignore();
+        cout << "Verify your Identity before changing password!"<<endl;
         std::string temp_user_name,temp_password;
         cout << "Enter user_name";
         getline(std::cin,temp_user_name);

@@ -12,7 +12,6 @@ std::string username,password;
 PrivateInfo private_info;
 public:
 Admin();
-void ViewProfile() const override;
 void LoadAdminPrivateInfo();
 void WriteOrUpdateAdminInfo();
 void RunAdminPanel(StudentManager* student_manager, CourseManager* course_manager, ProfessorManager* professor_manager);

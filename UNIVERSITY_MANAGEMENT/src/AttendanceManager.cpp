@@ -63,7 +63,7 @@ return nullptr;
 void AttendanceManager::ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student) 
  {
     if (!IsStudentExist(course_code,student_roll_number)) {
-        cout <<"Error: Student not exist" << endl;
+        cout <<"Error: Invalid Course code or student not exist in this course!" << endl;
         return;
     }
     if(single_student) {
@@ -135,8 +135,8 @@ void AttendanceManager::ViewAllStudentsAttendanceReport(string course_code) {
     }
     
 }
-bool ViewStudentAssesment(std::string course_code, std::string student_roll_number, std::string assesment_id) {
-    //
+bool AttendanceManager::ViewStudentAssesment(std::string course_code, std::string student_roll_number, std::string assesment_id) {
+    return true;
 }
 
 void AttendanceManager::ViewAttandanceSummery(std::string course_code, std::string student_roll_number, bool single) {

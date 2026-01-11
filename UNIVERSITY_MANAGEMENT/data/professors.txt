@@ -1,0 +1,2 @@
+emp-1001|H^vm>rfwmV||Muhammad Imran Butt|Male|18||35201-9698236-7,Qainchi AMerSidhy,Arifr Butt,NULL,29-11-2005|
+emp-1002|hG3H45^hTM||Imdas|Male|12||CS-10001,,NULL,NULL,NULL|

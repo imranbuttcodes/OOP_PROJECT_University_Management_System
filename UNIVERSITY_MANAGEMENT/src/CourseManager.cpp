@@ -14,7 +14,7 @@ using std::endl;
 
 
 bool CourseManager::IsCourseExist(std::string course_code) {
-    LoadCourseDataFromFile();
+   // LoadCourseDataFromFile();
     for(auto course: courses_) {
         if(course->course_code() == course_code) {
             return true;
@@ -35,6 +35,7 @@ void CourseManager::AddCourse(Course* course) {
 }
 
 void CourseManager::RemoveCourse(std::string course_code) {
+    LoadCourseDataFromFile();
     if(!IsCourseExist(course_code)) {
     cout <<"Error: Course " << course_code << "Not found in database!" << endl;
     return;
@@ -53,10 +54,12 @@ void CourseManager::RemoveCourse(std::string course_code) {
 
 
 void CourseManager::ViewCourse(std::string course_code, bool single) {
+    cout << "Course code passed  in viewCourse(): " << course_code << endl;
     if(!IsCourseExist(course_code)) {
         cout << "Error: Course not found!" << endl;
         return;
     }
+
     for (auto course: courses_) {
         if(course->course_code() == course_code) {
             course->PrintCourse(single);
@@ -66,10 +69,10 @@ void CourseManager::ViewCourse(std::string course_code, bool single) {
 }
 
 
-void CourseManager::ViewAllCourses() {
+bool CourseManager::ViewAllCourses() {
     if(courses_.empty()) {
         cout <<"Error: No courses created yet!" << endl;
-        return;
+        return false;;
     }
     cout <<" "<< string(100,'=') <<" "<< endl;
     cout <<"|       \t\t\t\tCourse Details\t\t\t\t                     |"<<endl;
@@ -86,11 +89,12 @@ void CourseManager::ViewAllCourses() {
     for(auto& course: courses_) {
         course->PrintCourse(false);
     }
-
+return true;
 } 
 
 Course* CourseManager::GetCourse(string course_code) {
-    if(IsCourseExist(course_code)) {
+    
+    if(!IsCourseExist(course_code)) {
         cout <<"Error: Course Not found!" << endl;
         return nullptr;
     }
@@ -99,6 +103,7 @@ Course* CourseManager::GetCourse(string course_code) {
             return course;
         }
     }
+    return nullptr;
 }
 
 void CourseManager::UpdateCourse(Course* course) {
@@ -167,9 +172,11 @@ void CourseManager::LoadCourseDataFromFile() {
             while(getline(ss_new,file_single_student_id,',')) {
                 temp_course->EnrollStudent(file_single_student_id);
             }
+            cout << temp_course->course_code() << endl;
             courses_.push_back(temp_course);
 
         }
+        read_courses.close();
 }
 
 CourseManager::~CourseManager() {

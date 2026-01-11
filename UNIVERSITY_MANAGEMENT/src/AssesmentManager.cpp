@@ -4,7 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include "Managers/AssesmentManager.h"
-#include "InfoStructs.h"
+#include "Utilities/InfoStructs.h"
 using std::ofstream;
 using std::ifstream;
 using std::cout;

@@ -1,7 +1,7 @@
 
 #include <fstream>
 #include <string>
-#include "InputValidator.h"
+#include "Utilities/InputValidator.h"
 #include "Utilities/Security.h"
 #include "Admin.h"
 #include "Professor.h"
@@ -162,9 +162,9 @@ void Admin::RunAdminPanel(StudentManager* student_manager, CourseManager* course
     cout << "[4] View My Profile" << endl;
     cout << "[5] Edit Profile" << endl;
     cout << "[0] Logout" << endl;
-    choice = InputValidator::GetValidInput<string>("Enter your Choice");
+    choice = InputValidator::GetValidInput<string>("Enter your Choice: ");
     if(cin.peek() == '\n') cin.ignore();
-    getline(cin,choice);
+    //getline(cin,choice);
     if (choice == "1") {
         ManageStudents(student_manager);
     } else if (choice == "2") {
@@ -196,7 +196,7 @@ void Admin::ManageStudents(StudentManager* student_manager  ) {
         cout << "0. Back to Main Menu\n";
         cout << "====================================================\n";
         
-        choice = InputValidator::GetValidInput<string>("Enter your Choice");
+        choice = InputValidator::GetValidInput<string>("Enter your Choice: ");
         if(cin.peek() == '\n') cin.ignore();
         if (choice == "1") {
         student_manager->RegisterStudent();
@@ -206,6 +206,7 @@ void Admin::ManageStudents(StudentManager* student_manager  ) {
         string roll_number;
         cout << "Enter student Roll Number: ";
         getline(cin,roll_number);
+        cout << "Verify your credentials!" << endl;
         if(!VerifyIdentity(user_name_,password_))  {
             cout <<"Invlaid Credentials Entered!"<<endl;
             continue;
@@ -213,6 +214,7 @@ void Admin::ManageStudents(StudentManager* student_manager  ) {
         student_manager->ViewStudentBasicProfile(roll_number);
         student_manager->ViewStudentPrivateProfile(roll_number);
      } else if (choice == "4") {
+        cout << "Verify your credentials!" << endl;
         if(!VerifyIdentity(user_name_,password_))  {
             cout <<"Invlaid Credentials Entered!"<<endl;
             continue;
@@ -252,10 +254,11 @@ void Admin::ManageFaculty(ProfessorManager* professor_manager,  CourseManager* c
             cout << "\n--- HIRIING PROCESS ---\n";
             string name, gender, role, email,employee_id;
             int age;
-            cout << "Enter Name: ";
+            //cout << "Enter Name: ";
             name = InputValidator::InputName();
-            cout << "Enter Gender (M/F): "; 
+            cout << "Enter Gender (M/F): "<<endl; 
             gender = InputValidator::InputGender();
+            //if (std::cin.peek() == '\n')    cin.ignore();    
             age = InputValidator::InputAge();
             cout <<"Enter role: (e.g assistant professor): ";
             getline(cin,role);
@@ -269,7 +272,7 @@ void Admin::ManageFaculty(ProfessorManager* professor_manager,  CourseManager* c
             Professor* new_prof = new Professor(name,gender,age,role,email,employee_id,default_password);            
             
             professor_manager->AddProfessor(new_prof);
-            
+            professor_manager->WriteOrUpdateProfessor();
             cout << "\n[SUCCESS] Professor Hired!\n";
             cout << "Assigned Employee ID: " << employee_id << endl;
             cout << "Default Password:     " << default_password << endl;
@@ -301,6 +304,7 @@ void Admin::ManageFaculty(ProfessorManager* professor_manager,  CourseManager* c
                 getline(cin, confirm);
                 
                 if(confirm == "y" || confirm == "Y") {
+                    cout << "Verify your credentials!" << endl;
                     if (!VerifyIdentity(user_name_,password_)) {
                         cout << "Authentication failed!" << endl;
                         break;
@@ -414,7 +418,7 @@ while (true) {
             cout << "Enter Course Code (e.g. CS-101): "; 
             getline(cin, course_code);
             
-            if(course_manager->GetCourse(course_code) != nullptr) {
+            if(course_manager->IsCourseExist(course_code)) {
                 cout << "Course " << course_code << " already exists!\n";
                 continue;
             }
@@ -423,10 +427,12 @@ while (true) {
             getline(cin, course_title);
             cout << "Enter Building(A,B,C) to assign room: ";
             string building;
+            getline(cin,building);
             int seating_capacity;
             bool has_multimedia;
-            cout << "Enter seating capacity: ";
+            cout << "Enter seating capacity for the room: ";
             cin>>seating_capacity;
+            cin.ignore();
             while(true) {
                 string choice;
                 cout << "Has multimedia? y/n: ";
@@ -441,13 +447,13 @@ while (true) {
                     cout << "Invalid choice entered!" ;
                 }
             }
-            getline(cin,building); 
             RoomManager rm;
             rm.LoadRoomsFromFile();
             string room_id = rm.GenerateRoomID(building);
             rm.CreateRoom(building,room_id,seating_capacity,has_multimedia);
             
             credits_hours = InputValidator::GetValidInput<int>("Enter Credit Hours (1-4): ");
+            if(cin.peek() == '\n') cin.ignore();
             if (credits_hours < 1 || credits_hours > 4) {
                 cout << "ERROR: Invalid Credit Hours. Course not added.\n";
                 continue;
@@ -455,7 +461,7 @@ while (true) {
 
             Course* new_course = new Course(course_code, course_title, room_id, credits_hours);
             course_manager->AddCourse(new_course);
-            
+            course_manager->WriteOrUpdateCourse();
             cout << "SUCCESS Course " << course_code << " added successfully.\n";
         } 
         
@@ -484,7 +490,7 @@ while (true) {
             while (true) {
             cout << "Enter Course Code to Remove: ";
             getline(cin, code);
-
+            course_manager->LoadCourseDataFromFile();
             if (course_manager->GetCourse(code) != nullptr) {
                 while (true) {
 

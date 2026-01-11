@@ -23,7 +23,7 @@ struct Assesment {
    double class_average_;
    void AddOrUpdateMarks(std::string student_roll_number, double obtained_marks) {
     if(total_marks_ == 0) {
-        cout <<"Error: total_marks for the assesment haven't set please set it" << endl;
+        std::cout <<"Error: total_marks for the assesment haven't set please set it" << std::endl;
         return;
     }
     if(marks_.count(student_roll_number)) {

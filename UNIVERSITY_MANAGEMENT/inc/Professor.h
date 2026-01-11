@@ -1,13 +1,15 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "Interfaces/IPerson.h"
 #include "Interfaces/IAccount.h"
 #include "Utilities/InfoStructs.h"
-#include "Managers/AssesmentManager.h"
-#include "Managers/AttendanceManager.h"
-#include "Managers/StudentManager.h"
-#include "Managers/CourseManager.h"
 class Course;
+class AssesmentManager;
+class AttendanceManager;
+class CourseManager;
+class StudentManager;
+class ProfessorManager;
 
 class Professor: public IPerson, public IAccount{
 private:
@@ -21,7 +23,7 @@ std::string employee_email_id_;
 //file format:
 //employee_id|password|employee_email_id|privateInfo(cinic,address....)|coursesteaching_id1,coursesteaching_id2...
 public:
-void RunProfessorPanel(AttendanceManager* attendane_manager, AssesmentManager* assesment_manager, CourseManager* course_manager, StudentManager* student_manager);
+void RunProfessorPanel(AttendanceManager* attendane_manager, AssesmentManager* assesment_manager, CourseManager* course_manager, StudentManager* student_manager, ProfessorManager* professor_manager);
 Professor(std::string name, std::string gender, int age, 
     std::string role, std::string employee_email_id, std::string employee_id, std::string password);
 void AddCourse(Course* course);
@@ -30,11 +32,11 @@ void RemoveCourse(std::string course_code);
 void GradeStudent(AssesmentManager* assesment_manager);
 void ProfessorCreateAssesment(AssesmentManager* assesment_manager);
 Course* course(std::string course_code);
-bool IsCourseExist(string course_code);
 //Assesment* GetAssesmentToUpdate(std::string assesment_type, std::string course_code); //for assesment work like adding marks/updating marks
 //void AssesmentHandler();
 void ConductClassAttendance(AttendanceManager* attendance_manager); 
 //bool CreateAssesment(std::string course_code, Assesment& assesment); //it will fill the assesment struct with like(total marks, assesment name, assesment type.....)
+void EditProfessorProfile();
 void ViewProfile() const override;
 bool IsCourseExist(std::string cours_code);
 bool VerifyIdentity(std::string username = "NULL", std::string password = "NULL") override;
@@ -43,7 +45,7 @@ std::string professor_id() const;
 std::string role() const;
 PrivateInfo GetPrivateInfo() const;
 std::vector<Course*> getAllCourse();
-Course* GetCourse(string course_code);
+Course* GetCourse(std::string course_code);
 void AddPrivateInfo(
     std::string cnic,
     std::string address,

@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 #include "Utilities/Security.h"
 #include "Managers/StudentManager.h"
 #include "Student.h"

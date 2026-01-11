@@ -1,6 +1,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <algorithm>
 #include "Managers/ProfessorManager.h"
 #include "Professor.h"
 #include "Managers/CourseManager.h"
@@ -206,7 +207,7 @@ void ProfessorManager::ViewAllProfessors() {
     cout << "------------------------- All Professors List -------------------------\n\n";
     for(auto& professor: professors_) {
         professor->ViewProfile();
-        cout << string(100,'-') << endl;
+        cout << string(75,'-') << endl;
     }
 }
 

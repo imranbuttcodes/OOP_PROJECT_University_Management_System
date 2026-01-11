@@ -1,0 +1,2 @@
+BS-CS-25-1000|H^vm>rfwmV|Muhammad Imran Butt|20|Male|BS|CS|NULL,NULL,NULL,NULL,NULL|
+BS-IT-25-1001|Imran@1213|Faizan|18|Male|BS|IT|35201-9698236-7,Qainchi Amer Sidhu Lahore,Arif Butt,imranbutt40900@gmail.com,12-12-2000|
