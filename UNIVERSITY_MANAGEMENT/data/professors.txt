@@ -1,4 +1,4 @@
-emp-1000|>8o-X=7kok|emp-1000@uni.edu.pk|Junaind Ahmad|Male|34|Senior Lecturer|34546-9696789-0,Qaichi abro,Butt SAAAB,imranbutt40900@gmail.com,12-11-2023|CS-103,CS-102,
+emp-1000|>8o-X=7kok|emp-1000@uni.edu.pk|Junaind Ahmad|Male|34|Senior Lecturer|34546-9696789-0,Qaichi abro,Butt SAAAB,imranbutt40900@gmail.com,12-11-2023|CS-103,
 emp-1001|Am46E3)_@g|emp-1001@uni.edu.pk|Muhammad Ali|Male|19|TA|NULL,NULL,NULL,NULL,NULL|
 emp-1002|-<!lLZE@-R|emp-1002@uni.edu.pk|Hamid|Male|44|Visiting Lecturer|NULL,NULL,NULL,NULL,NULL|
 emp-1003|ex$e_V1d!$|emp-1003@uni.edu.pk|Usman|Male|19|Visiting Lecturer|NULL,NULL,NULL,NULL,NULL|

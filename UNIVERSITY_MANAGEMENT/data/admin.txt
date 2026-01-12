@@ -1,1 +1,1 @@
-Muhammad Admin Butt,19,Female,12345-1234567-8,12-12-2000,dsfa,NULL,sadfs
+NULL,0,NULL,NULL,NULL,NULL,NULL,NULL

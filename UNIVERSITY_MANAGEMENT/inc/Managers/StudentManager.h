@@ -12,6 +12,8 @@ class StudentManager {
 private:
 vector<Student*> students_;
 public:
+StudentManager() = default;
+StudentManager(const StudentManager& other);
 void LoadStudentsFromFile();
 void WriteOrUpdateStudents();
 bool IsStudentExist(string roll_number);

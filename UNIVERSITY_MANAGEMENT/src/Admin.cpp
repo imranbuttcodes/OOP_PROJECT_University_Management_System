@@ -92,8 +92,7 @@ void Admin::EditProfile() {
         cout << "5.  Father Name   (" << private_info.father_name_ << ")\n";
         cout << "6.  Date of Birth (" << private_info.date_of_birth_ << ")\n";
         cout << "7.  Address       (" << private_info.address_ << ")\n";
-        cout << "8.  Change Password\n";
-        cout << "9.  Change Email\n";
+        cout << "8.  Add/Change Email\n";
         cout << "0.  Back\n";
         cout << "=====================================================\n";
         string choice = InputValidator::GetValidInput<string>("Select Field to Edit: ");
@@ -119,25 +118,11 @@ void Admin::EditProfile() {
     } else if (choice == "7") {
         private_info.address_ = InputValidator::InputAddress();
     } else if (choice == "8") {
-        if(!VerifyIdentity(user_name_,password_)) {
-            cout << "Invalid username or password!" << endl;
-            continue;
-        }
-        while (true) {
-            string password = InputValidator::InputPassword();
-            if(password == password_) {
-                cout << "New password can't be old password!"<<endl;
-                continue;
-            } 
-            password_ = password;
-            break;
-        }
-        
-    } else if (choice == "9") {
         private_info.personal_email_ = InputValidator::InputEmail();
     }
     else if (choice == "0") {
         cout << "Saving changes...";
+        WriteOrUpdateAdminInfo();
         break;
     } else {
         cout << "Invalid Choice !" << endl;

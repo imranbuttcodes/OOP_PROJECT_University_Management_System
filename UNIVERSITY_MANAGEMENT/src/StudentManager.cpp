@@ -284,3 +284,10 @@ StudentManager::~StudentManager() {
     
     students_.clear();
 }
+
+
+StudentManager::StudentManager(const StudentManager& other) {
+    for (auto student: other.students_) {
+        this->students_.push_back(new Student(*student));
+    }
+}
