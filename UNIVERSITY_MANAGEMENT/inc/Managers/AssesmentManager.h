@@ -7,7 +7,7 @@
 class AssesmentManager: public IStudentPortalReadOnly{
 private:
 std::vector<std::pair<std::string,Assesment*>> assesment_;//course-code,Assesment
-void ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student) override;
+void ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student, bool single_student_summery) override;
 public:
 Assesment* get_assesment(std::string assesment_id, std::string course_code);
 Assesment* CreateAssesment(std::string course_code, std::string assesment_name, std::string assesment_ID, std::string assesment_type, double total_marks);

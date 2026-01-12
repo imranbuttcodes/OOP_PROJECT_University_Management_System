@@ -53,4 +53,6 @@ void AddPrivateInfo(
     std::string father_name,
     std::string date_of_birth
     ) override;
+
+    friend std::ostream& operator<<(std::ostream& out, const Professor& other);
 };

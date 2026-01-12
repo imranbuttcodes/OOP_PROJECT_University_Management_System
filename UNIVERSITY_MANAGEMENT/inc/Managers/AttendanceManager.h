@@ -28,7 +28,7 @@ bool LoadAttendanceRecordFromFile();
 bool SaveOrUpdateAttendanceRecord();
 bool IsStudentExist(std::string course_code, std::string student_roll_number) const;
 AttendenceRecord* GetStudentRecord(std::string course_code, std::string student_roll_number);
-void ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student) override;
+void ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student, bool single_student_summery) override;
 void ViewAllStudentsAttendanceReport(std::string course_code);//to print the attandace of all students of a specific record
 void ViewAttandanceSummery(std::string course_code, std::string student_roll_number, bool single);
 void ViewAllAttandanceSummery(std::string course_code);

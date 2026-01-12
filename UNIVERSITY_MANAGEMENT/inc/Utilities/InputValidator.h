@@ -12,7 +12,7 @@ static bool IsValidDOBFormat(std::string dob);
 static bool IsValidDOB(std::string DOB);
 static bool IsValidCNIC(std::string cnic);
 static bool IsValidPassword(std::string password);
-
+static bool IsCountinue();
 
 static std::string InputCNIC();
 static std::string InputName();

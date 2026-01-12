@@ -260,8 +260,8 @@ void Admin::ManageFaculty(ProfessorManager* professor_manager,  CourseManager* c
             name = InputValidator::InputName();
             cout << "Enter Gender (M/F): "<<endl; 
             gender = InputValidator::InputGender();
-            //if (std::cin.peek() == '\n')    cin.ignore();    
             age = InputValidator::InputAge();
+            if (std::cin.peek() == '\n')    cin.ignore();    
             cout <<"Enter role: (e.g assistant professor): ";
             getline(cin,role);
             cout << "Generating employee ID.....\n";
@@ -277,6 +277,7 @@ void Admin::ManageFaculty(ProfessorManager* professor_manager,  CourseManager* c
             professor_manager->WriteOrUpdateProfessor();
             cout << "\n[SUCCESS] Professor Hired!\n";
             cout << "Assigned Employee ID: " << employee_id << endl;
+            cout << "Assigned Email ID: " << email << endl;
             cout << "Default Password:     " << default_password << endl;
             cout << "Note: Professor can change the default password after first login!" << endl;
         } 
@@ -339,11 +340,17 @@ void Admin::ManageFaculty(ProfessorManager* professor_manager,  CourseManager* c
 
             if (prof == nullptr) {
                 cout << "ERROR: Professor not found.\n";
-                continue;
+                if(InputValidator::IsCountinue()){
+                    continue;
+                }
+                break;
             } 
             else if (temp_course == nullptr) {
                 cout << "ERROR: Course not found.\n";
-                continue;
+                if(InputValidator::IsCountinue()){
+                    continue;
+                }
+                break;
             } 
             else {
 
@@ -352,10 +359,11 @@ void Admin::ManageFaculty(ProfessorManager* professor_manager,  CourseManager* c
                     continue;
                 } else {
                     prof->AddCourse(temp_course);
+                    temp_course->AssignProfessor(prof->professor_id());
                     professor_manager->WriteOrUpdateProfessor(); 
-                    
+                    course_manager->WriteOrUpdateCourse();
                     cout << "[SUCCESS] Assigned " << temp_course->course_code() 
-                     << prof->name() << ".\n";
+                     <<" to "<< prof->name() << ".\n";
                      break;
                 }
             }
@@ -381,6 +389,9 @@ void Admin::ManageFaculty(ProfessorManager* professor_manager,  CourseManager* c
 
             if (prof->IsCourseExist(course_code)) {
                 prof->RemoveCourse(course_code);
+                Course* temp_ = course_manager->GetCourse(course_code);
+                temp_->AssignProfessor("NULL");
+                course_manager->WriteOrUpdateCourse();
                 professor_manager->WriteOrUpdateProfessor(); // Save
                 cout << "Course removed from workload!.\n";
                 break;
@@ -449,11 +460,10 @@ while (true) {
                     cout << "Invalid choice entered!" ;
                 }
             }
+          //  cout << "Hi i'm here" << endl;
             RoomManager rm;
-            rm.LoadRoomsFromFile();
             string room_id = rm.GenerateRoomID(building);
             rm.CreateRoom(building,room_id,seating_capacity,has_multimedia);
-            
             credits_hours = InputValidator::GetValidInput<int>("Enter Credit Hours (1-4): ");
             if(cin.peek() == '\n') cin.ignore();
             if (credits_hours < 1 || credits_hours > 4) {

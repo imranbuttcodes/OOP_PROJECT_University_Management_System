@@ -46,7 +46,8 @@ void ProfessorManager::LoadProfessors() {
         getline(ss,file_age, '|');
         getline(ss,file_role, '|');
         getline(ss,file_private_info_line,'|');
-        getline(ss,file_private_info_line,'|');
+        //getline(ss,file_private_info_line,'|');
+        
         std::stringstream private_info_entry(file_private_info_line);
         getline(private_info_entry,file_private_info.cnic_,',');
         getline(private_info_entry,file_private_info.address_,',');
@@ -197,13 +198,18 @@ bool ProfessorManager::IsProfessorExist(std::string professor_id) {
 void ProfessorManager::ViewProfessor(std::string professor_id) {
     Professor* temp_professor = GetProfessor(professor_id);
     if(temp_professor != nullptr) {
-        temp_professor->ViewProfile();
+        //temp_professor->ViewProfile();
+        cout << *temp_professor << endl;
         cout << string(100,'-') << endl;
     cout << endl;
     }
 }
 
 void ProfessorManager::ViewAllProfessors() {
+    if(professors_.empty()) {
+        cout << "No Professors found!" << endl;
+        return;
+    }
     cout << "------------------------- All Professors List -------------------------\n\n";
     for(auto& professor: professors_) {
         professor->ViewProfile();

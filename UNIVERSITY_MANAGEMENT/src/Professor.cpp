@@ -62,11 +62,12 @@ Course* Professor::GetCourse(string course_code) {
 
 
 void Professor::GradeStudent(AssesmentManager* assesment_manager) {
+    cout << "-------------------------- Giving Students Marks --------------------------\n";
     string course_code, assesment_id;
     string choice;
     double obtainedMarks;
     while(true) {
-    cout << "Enter course_code";
+    cout << "Enter course_code: ";
     getline(std::cin,course_code);
     if(!IsCourseExist(course_code)) {
         cout << "Cours Not found!" << endl;
@@ -104,7 +105,7 @@ void Professor::GradeStudent(AssesmentManager* assesment_manager) {
     for(auto& student_id: course->student_enrolled_ids()) {
         while(true){
         cout << "Student Roll Number: " << student_id <<endl;
-        cout << "Enter obtained Makrs";
+        cout << "Enter obtained Makrs: ";
         std::cin >> obtainedMarks;
         if(std::cin.peek() == '\n')     std::cin.ignore();
         if(obtainedMarks < 0.0) {
@@ -127,8 +128,11 @@ void Professor::GradeStudent(AssesmentManager* assesment_manager) {
 //Assesment* CreateAssesment(string course_code, string assesment_name, string assesment_ID,string assesment_type, double total_marks);
 
 bool Professor::IsCourseExist(string course_code) {
+  //  cout << "IsCourse Exist!" << endl;
+   if (courses_teaching_.empty())   return false;
     for(auto course: courses_teaching_) {
         if(course->course_code() == course_code) {
+            
             return true;
         }
     }
@@ -139,15 +143,25 @@ void Professor::ProfessorCreateAssesment(AssesmentManager* assesment_manager) {
     
     string course_code, assesment_name, assesment_id, assesment_type;
             double total_marks;
+            bool should_continue = true;
               while (true) {
-                cout << "Enter course_code";
+                cout << "Enter course_code: ";
                 getline(std::cin,course_code);
+                
                 if(!IsCourseExist(course_code)) {
+
                     cout <<"Course not found!" << endl;
-                    continue;
+                    if (InputValidator::IsCountinue()) {
+                        continue;;
+                    }
+                    should_continue = false;
+                    break;
                 }
                 break;
             }
+                            //cout << "HI in createAssesment in professor!"<< endl;
+
+            if (should_continue) {
             cout << "Enter assesment Name: " ;
             getline(std::cin,assesment_name);
             while (true) {
@@ -165,6 +179,7 @@ void Professor::ProfessorCreateAssesment(AssesmentManager* assesment_manager) {
             if (std::cin.peek() == '\n')     std::cin.ignore();
             assesment_manager->CreateAssesment(course_code,assesment_name,assesment_id,assesment_type,total_marks);
             cout << "Assesment Created!" << endl;
+        }
     
 }
 
@@ -172,17 +187,23 @@ void Professor::ConductClassAttendance(AttendanceManager* attendance_manager) {
     string course_code;
             string date;
             while (true) {
-                cout << "Enter course_code";
-                getline(std::cin,course_code);
+                cout << "Enter course_code: ";
+                getline(std::cin,course_code); 
+                //cout << "Conduct Attendance right!" << endl;
                 if(!IsCourseExist(course_code)) {
                     cout <<"Course not found!" << endl;
-                    continue;
+                    if(InputValidator::IsCountinue()) {
+                        continue;
+                    }
+                    break;
                 }
+                //cout << "In else block!" << endl;
                 date = InputValidator::InputDate();
                 break;
             }
-
+           // cout << "Still rigt!" << endl;
             Course* target_course_for_attendance = GetCourse(course_code);
+            //cout << "Still right!" << endl;
             if (target_course_for_attendance != nullptr) {
                 cout << "\n============================================================\n";
                 cout << "   MARKING ATTENDANCE: " << course_code << " | DATE: " << date << "\n";
@@ -200,8 +221,8 @@ void Professor::ConductClassAttendance(AttendanceManager* attendance_manager) {
                         } else if (attendance_status == "p" || attendance_status == "P" ) {
                             attendance_manager->MarkAttendance(course_code,student,date, "P");
                             break;
-                        } else if(attendance_status == "n" || attendance_status == "N") {
-                            attendance_manager->MarkAttendance(course_code,student,date, "N");
+                        } else if(attendance_status == "a" || attendance_status == "A") {
+                            attendance_manager->MarkAttendance(course_code,student,date, "A");
                             break;
                         }
                         
@@ -226,6 +247,10 @@ void Professor::RemoveCourse(string course_code) {
 
 
 void Professor::ViewCourses() const {
+    if(courses_teaching_.empty()) {
+        cout << "No courses assigned yet!" << endl;
+        return;
+    }
     cout <<" "<< string(100,'=') <<" "<< endl;
     cout <<"|       \t\t\t\tCourse Details\t\t\t\t                     |"<<endl;
     cout <<" "<< string(100,'=') <<" "<< endl;
@@ -253,6 +278,11 @@ Course* Professor::course(std::string course_code) {
     return nullptr;
 }
 
+
+std::ostream& operator<<(std::ostream& out, const Professor& other) {
+    other.ViewProfile();
+    return out;
+}
 
 void Professor::ViewProfile() const  {
     cout << "------------------- Faculty Profile ----------------------\n\n";
@@ -327,16 +357,23 @@ void Professor::RunProfessorPanel(AttendanceManager* attendane_manager, Assesmen
             ConductClassAttendance(attendane_manager);
         } else if (choice == "5") {
             string course_code;
+            bool IsView = true;
               while (true) {
-                cout << "Enter course_code";
+                cout << "Enter course_code: ";
                 getline(std::cin,course_code);
                 if(!IsCourseExist(course_code)) {
                     cout <<"Course not found!" << endl;
-                    continue;
+                    if(InputValidator::IsCountinue()) {
+                        continue;
+                    }
+                    IsView = false;
+                    break;
                 }
                 break;
             }
+            if(IsView) {
             attendane_manager->ViewAllStudentsAttendanceReport(course_code);
+            }
         } else if (choice == "6") {
             ProfessorCreateAssesment(assesment_manager);
         } else if (choice == "7") {

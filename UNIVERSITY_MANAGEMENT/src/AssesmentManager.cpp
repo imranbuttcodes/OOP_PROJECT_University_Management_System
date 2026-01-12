@@ -79,7 +79,7 @@ bool AssesmentManager::IsAssesmentIdExist(string course_code, string assesment_I
     }
     return false;
 }
-void AssesmentManager::ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student) {
+void AssesmentManager::ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student, bool single_student_summery) {
 //
 }
 bool AssesmentManager::MarkStudent(string course_code, string assesment_id, string roll_number, double obtained_marks) {
@@ -158,25 +158,25 @@ bool AssesmentManager::ViewStudentAssesment(string course_code, string student_r
         }
     auto it = target_assesment->marks_.find(student_roll_number);
     if (it != target_assesment->marks_.end()) {
-            cout <<string(20,'-') <<" Student Grade Book "<<string(20,'-') <<"\n\n";
+            cout <<string(20,'=') <<" Student Grade Book "<<string(20,'=') <<"\n\n";
              cout << std::left <<std::setw(20) <<"Roll Number" 
              << std::setw(15) << "Assesment Type"
              << std::setw(20) << "Assesment Name "
-             <<std::setw(20) << "Assesment ID" 
+             <<std::setw(15) << "Assesment ID" 
              <<std::setw(15) << "Total Marks" 
-             <<std::setw(15) << "Obtained Marks" 
+             <<std::setw(10) << "Obtained" 
              <<std::setw(15) << "percentage %" 
-             <<std::setw(15) << "Class Average" <<endl<<endl; 
-             cout << string(60,'-');
+             <<std::setw(10) << "Class Average" <<endl; 
+             cout << string(120,'=');
              cout <<endl;
              cout << std::left <<std::setw(20) << it->first 
              << std::setw(15) <<target_assesment->assesment_type_  
              << std::setw(20) << target_assesment->assesment_name_  
-             << std::setw(20) << target_assesment->assesment_ID_ 
+             << std::setw(15) << target_assesment->assesment_ID_ 
              <<std::setw(15) << target_assesment->total_marks_  
-             <<std::setw(15) << it->second.first  
+             <<std::setw(10) << it->second.first  
              <<std::setw(15) << it->second.second 
-             <<std::setw(15) << target_assesment->class_average_ << endl;
+             <<std::setw(10) << target_assesment->class_average_ << endl;
     } else {
         cout << "Student not found in assesment " << assesment_id << endl;
         return false;

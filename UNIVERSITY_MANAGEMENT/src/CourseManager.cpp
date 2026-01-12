@@ -172,7 +172,7 @@ void CourseManager::LoadCourseDataFromFile() {
             while(getline(ss_new,file_single_student_id,',')) {
                 temp_course->EnrollStudent(file_single_student_id);
             }
-            cout << temp_course->course_code() << endl;
+            //cout << temp_course->course_code() << endl;
             courses_.push_back(temp_course);
 
         }

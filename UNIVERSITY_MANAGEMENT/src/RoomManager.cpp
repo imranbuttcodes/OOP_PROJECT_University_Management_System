@@ -32,6 +32,7 @@ bool RoomManager::UpdateORSaveRoomsInFile(Room* room) {
 
 
 bool RoomManager::LoadRoomsFromFile() {
+  //  std::cout << "I'm inside bro!" << std::endl;
     std::ifstream read_file("data/rooms.txt");
     if(!read_file)  return false;
     if(!rooms_.empty()) {
@@ -40,14 +41,20 @@ bool RoomManager::LoadRoomsFromFile() {
         }
         rooms_.clear();
     }
+    //std::cout << "File opened !" << std::endl;
     std::string line, file_building_id, file_room_id, str_seating_capacity, str_has_multimedia;
     while(getline(read_file,line)) {
+        if (line.empty()) {
+            read_file.close();
+            return false;
+        }
         std::stringstream ss(line);
         getline(ss,file_building_id,'|');
         getline(ss,file_room_id,'|');
         getline(ss,str_seating_capacity,'|');
         getline(ss,str_has_multimedia, '|');
-        rooms_.emplace_back(new Room(file_building_id,file_room_id, std::stoi(str_seating_capacity),(str_has_multimedia == "YES"? true: false)));
+       // std::cout << "finally Here i'm again!" << std::endl;
+        rooms_.emplace_back(new Room(file_building_id,file_room_id, !str_seating_capacity.empty() ? std::stoi(str_seating_capacity): 0,(str_has_multimedia == "YES"? true: false)));
     }
     return true;
 }

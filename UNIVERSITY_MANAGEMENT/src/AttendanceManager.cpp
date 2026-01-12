@@ -11,11 +11,15 @@ using std::ifstream;
 using std::ofstream;
 using std::stringstream;
 bool AttendanceManager::LoadAttendanceRecordFromFile() {
+        cout << "I'm here in attandance load bro!" << endl;
+
     ifstream read_file("data/attendance.txt");
     if(!read_file)      return false;
     if(!attendance_records_.empty()) {
         attendance_records_.clear();
     }
+        cout << "I'm here in attandance load bro!" << endl;
+
     std::string line, file_course_code, file_roll_number, file_date, file_status;
     AttendenceRecord temp_record;
     while(getline(read_file,line)) {
@@ -30,6 +34,7 @@ bool AttendanceManager::LoadAttendanceRecordFromFile() {
         temp_record.status_ = file_status;
         attendance_records_.push_back(temp_record);
     }
+    cout << "I'm here in attandance load bro!" << endl;
     return true;
 }
 
@@ -60,10 +65,10 @@ for(auto& record: attendance_records_) {
 return nullptr;
 }
 
-void AttendanceManager::ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student) 
+void AttendanceManager::ViewStudentAttendance(std::string course_code, std::string student_roll_number, bool single_student, bool single_student_summery) 
  {
     if (!IsStudentExist(course_code,student_roll_number)) {
-        cout <<"Error: Invalid Course code or student not exist in this course!" << endl;
+        cout <<"Error: Invalid Course code or student not exist in this course or There's no class conducted yet!" << endl;
         return;
     }
     if(single_student) {
@@ -86,7 +91,11 @@ void AttendanceManager::ViewStudentAttendance(std::string course_code, std::stri
     }
 
     if(found_any) {
-        ViewAttandanceSummery(course_code,student_roll_number,single_student);
+        if(single_student_summery) {
+        ViewAttandanceSummery(course_code,student_roll_number,true);
+        } else {
+            ViewAttandanceSummery(course_code,student_roll_number,false);
+        }
     } else {
         cout <<"No record found for student id "<< student_roll_number << endl;
     }
@@ -130,7 +139,7 @@ void AttendanceManager::ViewAllStudentsAttendanceReport(string course_code) {
         << endl << string(70,'-') <<endl;
     for (auto record: attendance_records_) {
         if (course_code == record.course_id_) {
-            ViewStudentAttendance(record.course_id_, record.student_id_,false); 
+            ViewStudentAttendance(record.course_id_, record.student_id_,false, true); 
         }
     }
     
@@ -146,9 +155,9 @@ void AttendanceManager::ViewAttandanceSummery(std::string course_code, std::stri
     }
 
     if(single) {
-    cout << string(90,'=') << endl;
-    cout << "|           \t\tAttendance Summery          |\n";
-    cout  << string(70,'=')  << endl<<endl;
+    cout  << string(90,'=') << endl;
+    cout <<"|           \t\tAttendance Summery of Student "<< "(" << student_roll_number << ")\t\t          |\n";
+    cout  << string(90,'=')  << endl<<endl;
     cout << std::left << std::setw(15) <<"Course Code"
     << std::setw(15) << "Roll Number"
     << std::setw(15) << "Total Classes"
@@ -161,9 +170,9 @@ void AttendanceManager::ViewAttandanceSummery(std::string course_code, std::stri
     cout << std::left << std::setw(15) <<course_code
     << std::setw(15) << student_roll_number
     << std::setw(15) << student_status->total_clases_
-    << std::setw(15) << student_status->status_percentage
-    << std::setw(15) << student_status->status_absents_
     << std::setw(15) << student_status->status_present_
+    << std::setw(15) << student_status->status_absents_
+    << std::setw(15) << student_status->status_percentage
     <<endl << string(90,'=') << endl;
     delete student_status;
 }

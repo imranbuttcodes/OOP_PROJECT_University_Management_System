@@ -19,7 +19,21 @@ bool InputValidator::isDigit(std::string var) {
     return true;
 } 
 
-
+    bool InputValidator::IsCountinue() {
+                    while (true) {
+                        string ch;
+                        cout << "continue/exit [y/n]: ";
+                        getline(std::cin,ch);
+                        if (ch == "y" || ch == "Y") {
+                            return true;
+                        } else if (ch == "n" || ch == "N") {
+                            return false;
+                        } else {
+                            cout << "Invalid Input!" << endl;
+                        }
+                    }
+                    return false;
+            }
 /*
     std::string cnic_ = "NULL";
     std::string address_ = "NULL";

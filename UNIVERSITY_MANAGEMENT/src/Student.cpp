@@ -84,7 +84,26 @@ while(true) {
             std::cin.ignore();
 
         if (choice == "1") {
+            while (1) {
+            string ch;
+            cout << "[1] View Basic Info? "<<endl;;
+            cout << "[2] View Private Info? "<<endl;;
+            cout << "[0] Exit"<<endl;
+            cout << "Enter your Choice: ";
+            getline(std::cin,ch);
+            if (ch == "1") {
             ViewProfile();
+            } else if (ch == "2") {
+                ViewPrivateInfo();
+            } else if (ch == "0") {
+                cout << "Exiting...\n\n";
+                break;
+            } 
+            else {
+                cout << "Invlaid Input!"<<endl;
+            }
+            }
+            
         } 
         else if (choice == "2") {
             cout << "\n--- Enrolled Courses ---\n";
@@ -95,24 +114,41 @@ while(true) {
                 }
             }
         } else if (choice == "3") {
+            
             cout <<"----------------- Available courses -----------------\n\n";
             CourseManager course_manager;
             course_manager.LoadCourseDataFromFile();
             if(!course_manager.ViewAllCourses())    continue;
+            std::string course_code;
+            bool ShouldEnroll = true;
             while (true)
             {
-                std::string course_code;
                 cout <<"Enter course-code to enroll in: ";
                 getline(std::cin,course_code);
-                if(!course_manager.IsCourseExist(course_code)) {
-                    cout << "Invalid Course code entered!" << endl;
+                
+                if (IsCourseALreadyEnrolled(course_code)) {
+                    cout << "Error: Already Enrolled!";
                     continue;
                 }
-                EnrollCourse(course_code);
-                cout << "Course Added successfully!" << endl; 
+                if(!course_manager.IsCourseExist(course_code)) {
+                    cout << "Invalid Course code entered!" << endl;
+                    if(InputValidator::IsCountinue()){   continue;}
+                    else {
+                        ShouldEnroll = false;
+                        break;
+                    }
+                } 
+                
                 break;
             }
-            student_manager->WriteOrUpdateStudents();
+            if(ShouldEnroll) { 
+                EnrollCourse(course_code);
+                Course* temp_course = course_manager.GetCourse(course_code);
+                temp_course->EnrollStudent(roll_number_);
+                course_manager.WriteOrUpdateCourse();
+                cout << "Course Added successfully!" << endl; 
+                student_manager->WriteOrUpdateStudents();
+            }
         }
         else if (choice == "4") {
             EditStudentProfile();
@@ -126,14 +162,16 @@ while(true) {
                 cout << "Course not exist!" << endl;
                 continue;
             }
-            portal_viewer_attandance->ViewStudentAttendance(course_code, roll_number_,true);
+            portal_viewer_attandance->ViewStudentAttendance(course_code, roll_number_,true,true);
         } else if (choice == "6") {
             std::string course_code, assesment_id;
             cout << "Enter course-code: ";
             getline(std::cin,course_code);
             cout << "Enter Assesment-ID: ";
             getline(std::cin,assesment_id);
-            portal_viewer_assesment->ViewStudentAssesment(course_code,roll_number_,assesment_id);
+            if(!portal_viewer_assesment->ViewStudentAssesment(course_code,roll_number_,assesment_id)) {
+                cout << "Invalid Assesment ID or Course Code or assesment haven't conducted yet!" << endl;
+            }
         }
         else if (choice == "0") {
             break;
@@ -185,7 +223,7 @@ void Student::AddPrivateInfo(
     }
 
 void Student::CheckAttendance(IStudentPortalReadOnly* portal, std::string course_code) {
-    portal->ViewStudentAttendance(course_code,roll_number_,true);
+    portal->ViewStudentAttendance(course_code,roll_number_,true,true);
     cout << endl;
 }
 
