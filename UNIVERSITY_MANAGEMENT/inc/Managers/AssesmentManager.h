@@ -16,4 +16,5 @@ bool MarkStudent(std::string course_code, std::string assesment_id, std::string 
 bool IsAssesmentIdExist(std::string course_code, std::string assesment_Id);
 bool ViewStudentAssesment(std::string course_code, std::string student_roll_number, std::string assesment_id) override;//student can only use this function
 bool LoadAssesmentsDataFromFile();
+~AssesmentManager();
 };

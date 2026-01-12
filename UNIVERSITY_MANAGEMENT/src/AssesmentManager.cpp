@@ -185,3 +185,13 @@ bool AssesmentManager::ViewStudentAssesment(string course_code, string student_r
     
     return true;
 }
+
+AssesmentManager::~AssesmentManager() {
+    if (!assesment_.empty()) {
+       for (auto& assesment: assesment_) {
+            delete assesment.second;
+    }
+}
+    assesment_.clear();
+}
+

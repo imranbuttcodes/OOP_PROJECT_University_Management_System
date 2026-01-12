@@ -24,4 +24,5 @@ bool RegisterStudent();
 string generateRollNumber(string program,string department);
 Student* GetStudent(string roll_number);
 Student* LoginStudent();
+~StudentManager();
 };

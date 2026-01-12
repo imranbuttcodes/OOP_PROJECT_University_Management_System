@@ -273,3 +273,14 @@ Student* StudentManager::LoginStudent() {
     return nullptr;
     
 }
+
+
+StudentManager::~StudentManager() {
+    if(!students_.empty()) {
+        for (auto& student: students_) {
+            delete student;
+        }
+    }
+    
+    students_.clear();
+}
