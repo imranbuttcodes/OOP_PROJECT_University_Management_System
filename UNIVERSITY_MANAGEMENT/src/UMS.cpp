@@ -9,19 +9,19 @@ void UMS::Start() {
     course_manager_.LoadCourseDataFromFile();
     while (true) {
     system("cls");
-    std::cout <<" " << std::string(75,'=') << std::endl;
-    std::cout << "|           Welcom to digital UMS(University Management System)             |\n";
-    std::cout  <<" " << std::string(75,'=') << std::endl;
+    std::cout <<" \t\t " << std::string(75,'=') << std::endl;
+    std::cout << "\t\t|           Welcom to digital UMS(University Management System)             |\n";
+    std::cout  <<" \t\t " << std::string(75,'=') << std::endl;
     //std::cout << std::endl; 
-    std::cout << "\t|                                                          |" << std::endl;
-    std::cout << "\t|                  SELECT YOUR ROLE                        |" << std::endl;
-    std::cout << "\t|                                                          |" << std::endl;
-    std::cout << "\t|              [1] Administrator                           |" << std::endl;
-    std::cout << "\t|              [2] Faculty Member                          |" << std::endl;
-    std::cout << "\t|              [3] Student                                 |" << std::endl;
-    std::cout << "\t|              [0] Exit                                    |" << std::endl;
-    std::cout << "\t|                                                          |" << std::endl;
-    
+    std::cout << "\t\t|                                                                     \t    |" << std::endl;
+    std::cout << "\t\t|                         SELECT YOUR ROLE                            \t    |" << std::endl;
+    std::cout << "\t\t|                                                                     \t    |" << std::endl;
+    std::cout << "\t\t|                     [1] Administrator                               \t    |" << std::endl;
+    std::cout << "\t\t|                     [2] Faculty Member                              \t    |" << std::endl;
+    std::cout << "\t\t|                     [3] Student                                     \t    |" << std::endl;
+    std::cout << "\t\t|                     [0] Exit                                        \t    |" << std::endl;
+    std::cout << "\t\t|                                                                     \t    |" << std::endl;
+        std::cout  <<" \t\t" << std::string(75,'=') << std::endl;
         std::string choice = InputValidator::GetValidInput<std::string>("Enter Your Choice: ");
         if (std::cin.peek() == '\n')        std::cin.ignore();
 

@@ -96,6 +96,7 @@ void Admin::EditProfile() {
         cout << "0.  Back\n";
         cout << "=====================================================\n";
         string choice = InputValidator::GetValidInput<string>("Select Field to Edit: ");
+        if (std::cin.peek() == '\n')        cin.ignore();
         if (choice == "0")  break;
         if (choice == "1") {
             name_ = InputValidator::InputName();
@@ -103,7 +104,7 @@ void Admin::EditProfile() {
         } else if (choice == "2") {
         gender_ = InputValidator::InputGender();
     } else if (choice == "3") {
-        int age = InputValidator::GetValidInput<int>("Enter your age");
+        int age = InputValidator::GetValidInput<int>("Enter your age: ");
         if (age < 0 || age > 130)    {
             cout <<"Invalid Age!";
             continue;
@@ -175,6 +176,7 @@ void Admin::RunAdminPanel(StudentManager* student_manager, CourseManager* course
         ViewProfile();
     } else if (choice == "5") {
         EditProfile();
+        WriteOrUpdateAdminInfo();
     } else if (choice == "0") {
         cout << "Logging you out...." << endl;
         break;
