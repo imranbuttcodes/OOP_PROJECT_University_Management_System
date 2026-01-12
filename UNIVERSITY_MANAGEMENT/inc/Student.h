@@ -16,9 +16,11 @@ const std::string department_;
 const std::string program_;
 PrivateInfo student_private_info_;
 std::vector<std::string> enrolled_courses_id_;
+static int course_count;
 //std::string request_status_;
 //file format roll_number|password|student_name|age|gender|program|department|privateInfo(cnic,address,father_name,personal_email,date_of_birth)|enrolled_course_id1,enrolled_course_id1...
 public:
+Student(const Student& other);
 void CheckAttendance(IStudentPortalReadOnly* portal, std::string course_code);
 Student(std::string name, int age, std::string gender, std::string roll_number, std::string password, 
 std::string department,
@@ -43,10 +45,10 @@ void ViewProfile() const override;
 void ViewPrivateInfo() const;
 bool VerifyIdentity(std::string username = "NULL", std::string password = "NULL") override;
 void EnrollCourse(std::string course);
-//void RequestCourseWithdraw() const;
 
 bool IsCourseALreadyEnrolled(std::string course_code) const;
-
+friend std::ostream& operator<<(std::ostream& os, const Student& s);
+bool operator==(const Student& other) const;
 void AddPrivateInfo(
     std::string cnic,
     std::string address,

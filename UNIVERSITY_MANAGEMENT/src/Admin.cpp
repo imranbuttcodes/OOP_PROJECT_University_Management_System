@@ -3,6 +3,7 @@
 #include <string>
 #include "Utilities/InputValidator.h"
 #include "Utilities/Security.h"
+#include "Utilities/Logger.h"
 #include "Admin.h"
 #include "Professor.h"
 #include "Course.h"
@@ -44,7 +45,7 @@ void Admin::ViewProfile() const  {
 
 bool Admin::Login() {
     cout  << " " << string(70,'=') <<endl;
-    cout  << " " << "|" <<"        \t\tAdmin Login Form\t\t              " << "|" << "\n" ;
+    cout  << "|" <<"        \t\tAdmin Login Form\t\t               " << "|" << "\n" ;
     cout  << " " << string(70,'=') <<endl;
     return VerifyIdentity("",""); 
 }
@@ -185,7 +186,7 @@ void Admin::RunAdminPanel(StudentManager* student_manager, CourseManager* course
         
     } 
     else if (choice == "0") {
-        cout << "Logging you out...." << endl;
+        
         break;
     } else {
         cout << "Invalid Input!" << endl;
@@ -217,7 +218,7 @@ void Admin::ManageStudents(StudentManager* student_manager  ) {
         getline(cin,roll_number);
         cout << "Verify your credentials!" << endl;
         if(!VerifyIdentity(user_name_,password_))  {
-            cout <<"Invlaid Credentials Entered!"<<endl;
+            Logger<string>::Log("Error: ", "Invalid Credentials!");
             continue;
         }
         student_manager->ViewStudentBasicProfile(roll_number);
@@ -362,7 +363,7 @@ void Admin::ManageFaculty(ProfessorManager* professor_manager,  CourseManager* c
             else {
 
                 if (prof->IsCourseExist(course_code)) {
-                    cout << "Professor is already assigned to this course.\n";
+                    Logger<string>::Log("Error: ","Course Already Exist!");
                     continue;
                 } else {
                     prof->AddCourse(temp_course);

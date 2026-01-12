@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-class IPerson {
+
+class IPerson{
 protected:
 std::string name_;
 std::string gender_;

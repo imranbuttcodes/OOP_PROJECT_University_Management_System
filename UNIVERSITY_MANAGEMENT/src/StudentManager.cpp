@@ -83,8 +83,10 @@ void StudentManager::WriteOrUpdateStudents() {
 
         }
         write_file << endl;
-
+        
     }
+    write_file.close();
+    
 }
 bool StudentManager::IsStudentExist(string roll_number) {
     for(auto student: students_) {

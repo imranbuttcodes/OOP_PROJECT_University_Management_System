@@ -92,7 +92,7 @@ while(true) {
             cout << "Enter your Choice: ";
             getline(std::cin,ch);
             if (ch == "1") {
-            ViewProfile();
+            cout << *this << endl;
             } else if (ch == "2") {
                 ViewPrivateInfo();
             } else if (ch == "0") {
@@ -196,11 +196,13 @@ bool Student::IsCourseALreadyEnrolled(std::string course_code) const {
     return false;
 }
 void Student::EnrollCourse(std::string course_code) {
+
 if(IsCourseALreadyEnrolled(course_code)) {
     cout << "Error: Course Alredy Enrolled" << endl;
     return;
 }
 enrolled_courses_id_.push_back(course_code);
+course_count++;
 }
 
 PrivateInfo& Student::GetPrivateInfo()  {
@@ -315,3 +317,21 @@ void Student::EditStudentProfile() {
 }
 
 }
+
+
+std::ostream& operator<<(std::ostream& os, const Student& s) {
+s.ViewProfile();
+return os;
+}
+
+bool Student::operator==(const Student& other) const {
+    return roll_number_ == other.roll_number_;
+}
+
+
+Student::Student(const Student& other): roll_number_(other.roll_number_), department_(other.department_) {
+    this->student_private_info_ = other.student_private_info_;
+    this->enrolled_courses_id_ = other.enrolled_courses_id_;
+}
+
+int Student::course_count = 0;
