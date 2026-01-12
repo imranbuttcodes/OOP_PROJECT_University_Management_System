@@ -2,9 +2,14 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 #include "Managers/RoomManager.h"
 #include "Room.h"
 
+using std::cout;
+using std::endl;
+using std::string;
+using std::cin;
 // std::string RoomManager::GenerateRoomID(std::string building_id) {
     
 // }
@@ -31,8 +36,108 @@ bool RoomManager::UpdateORSaveRoomsInFile(Room* room) {
 }
 
 
+void RoomManager::RemoveRoom(std::string room_id) {
+    rooms_count--;
+    if (!IsRoomExist(room_id)) {
+        cout << "Room not found! "<< endl;
+        return ;
+    }
+    for (auto& room: rooms_){
+        if (room->room_id_ == room_id) {
+            auto it = std::find(rooms_.begin(), rooms_.end(), room);
+            if (it != rooms_.end()) {
+                rooms_.erase(it);
+                UpdateORSaveRoomsInFile(nullptr);
+                return;
+            }
+        }
+    }
+}
+
+
+void RoomManager::RoomPanal() {
+    string choice, building;
+    int seating_capacity;
+    string has_multimedia, room_id;
+    while (true) {
+    cout << "-------------------- Room Panel --------------------" << endl;
+    cout << "[1] Add Room" << endl;
+    cout << "[2] Search Room" << endl;
+    cout << "[3] Remove Room" << endl;
+    cout << "[4] View All Rooms" << endl;
+    cout << "[0] Exit" << endl;
+    cout << "Enter your choice: ";
+    getline(cin,choice);
+    if (choice == "1") {
+        while (true) {
+        cout << "Enter Building: ";
+        getline(cin, building);
+        cout << "Enter seating capacity: " ;
+        if(cin >> seating_capacity) {
+            if (cin.peek() == '\n')      cin.ignore();
+            if (seating_capacity < 0) {
+                cout << "Enter positive numbers only!" << endl;
+            } 
+            
+        } else {
+            cout << "Enter integer numbers only!" << endl;
+        }
+        cout << "Has Multimedia? [y/n]: ";
+        getline(cin, has_multimedia);
+        if (has_multimedia == "y" || has_multimedia == "Y") {
+            CreateRoom(building, GenerateRoomID(building), seating_capacity, true);
+            cout << "Room created!" << endl;
+            break;
+        } else if (has_multimedia == "n" || has_multimedia == "N") {
+            CreateRoom(building, GenerateRoomID(building), seating_capacity, false);
+            cout << "Room created!" << endl;
+            break;
+        }
+    }
+    } else if (choice == "2") {
+        cout << "Enter room id: ";
+        getline(cin, room_id);
+        if (!IsRoomExist(room_id)) {
+            cout << "Room not found!" << endl;
+        } else {
+            Room* target_room = GetRoom(room_id);
+            if (target_room != nullptr) {
+                std::cout << std::left << std::setw(15) <<"Building ID"
+                << std::setw(15) <<"Room ID"
+                << std::setw(15) <<"Seating Capacity  "
+                << std::setw(15) << "Has Multimedia?" 
+                <<std::endl;
+                target_room->PrintRoomDetails();
+                cout << endl;
+            } else {
+                cout << "Room not found!" << endl;
+            }
+
+        }
+    } else if (choice == "3") {
+       cout << "Enter room id: ";
+        getline(cin, room_id);
+        if (!IsRoomExist(room_id)) {
+            cout << "Room not found!" << endl;
+        } else {
+            RemoveRoom(room_id);
+            cout << "Room " << room_id << " removed successfully! " << endl;
+        }
+    } else if (choice == "4") {
+             PrintAllRooms();
+    } else if (choice == "0") {
+           cout << "Exiting...\n";
+           break;
+    } else {
+        cout << "Invlaid Input!" << endl;
+    }
+    }
+
+}
+
+
+
 bool RoomManager::LoadRoomsFromFile() {
-  //  std::cout << "I'm inside bro!" << std::endl;
     std::ifstream read_file("data/rooms.txt");
     if(!read_file)  return false;
     if(!rooms_.empty()) {
@@ -41,7 +146,6 @@ bool RoomManager::LoadRoomsFromFile() {
         }
         rooms_.clear();
     }
-    //std::cout << "File opened !" << std::endl;
     std::string line, file_building_id, file_room_id, str_seating_capacity, str_has_multimedia;
     while(getline(read_file,line)) {
         if (line.empty()) {
@@ -53,7 +157,6 @@ bool RoomManager::LoadRoomsFromFile() {
         getline(ss,file_room_id,'|');
         getline(ss,str_seating_capacity,'|');
         getline(ss,str_has_multimedia, '|');
-       // std::cout << "finally Here i'm again!" << std::endl;
         rooms_.emplace_back(new Room(file_building_id,file_room_id, !str_seating_capacity.empty() ? std::stoi(str_seating_capacity): 0,(str_has_multimedia == "YES"? true: false)));
     }
     return true;
@@ -72,6 +175,7 @@ Room* RoomManager::GetRoom(std::string room_id) const {
 bool RoomManager::CreateRoom(std::string building_id, std::string room_id, int seating_capacity, bool has_multimedia) {
     if(IsRoomExist(room_id))    return false;
     rooms_.push_back(new Room(building_id, room_id,seating_capacity,has_multimedia));
+    rooms_count++;
     return UpdateORSaveRoomsInFile(nullptr);
 }
 
@@ -85,7 +189,8 @@ RoomManager::~RoomManager() {
     }
     rooms_.clear();
 }
-void RoomManager::PrintAllRooms() const {
+
+void RoomManager::PrintAllRooms()  {
     std::cout << std::left << std::setw(15) <<"Building ID"
     << std::setw(15) <<"Room ID"
     << std::setw(15) <<"Seating Capacity  "
@@ -120,3 +225,6 @@ std::string RoomManager::GenerateRoomID(std::string building_id) {
     return building_id + "-" + std::to_string(max_room_id);
     
 }
+
+
+int RoomManager::rooms_count = 0;

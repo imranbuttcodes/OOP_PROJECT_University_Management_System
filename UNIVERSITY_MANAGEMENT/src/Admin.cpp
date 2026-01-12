@@ -43,9 +43,9 @@ void Admin::ViewProfile() const  {
 }
 
 bool Admin::Login() {
-    cout << "|"  << string(70,'=') << "|" <<endl;
-    cout <<"        \t\tAdmin Login Form\t\t        \n";
-    cout << "|"  << string(70,'=') << "|" <<endl;
+    cout  << " " << string(70,'=') <<endl;
+    cout  << " " << "|" <<"        \t\tAdmin Login Form\t\t              " << "|" << "\n" ;
+    cout  << " " << string(70,'=') <<endl;
     return VerifyIdentity("",""); 
 }
 
@@ -162,6 +162,7 @@ void Admin::RunAdminPanel(StudentManager* student_manager, CourseManager* course
     cout << "[3] Manage Courses" << endl;
     cout << "[4] View My Profile" << endl;
     cout << "[5] Edit Profile" << endl;
+    cout << "[6] Manage Rooms" << endl;
     cout << "[0] Logout" << endl;
     choice = InputValidator::GetValidInput<string>("Enter your Choice: ");
     if(cin.peek() == '\n') cin.ignore();
@@ -177,7 +178,13 @@ void Admin::RunAdminPanel(StudentManager* student_manager, CourseManager* course
     } else if (choice == "5") {
         EditProfile();
         WriteOrUpdateAdminInfo();
-    } else if (choice == "0") {
+    } else if (choice == "6") {
+        RoomManager rm;
+        rm.LoadRoomsFromFile();
+        rm.RoomPanal();
+        
+    } 
+    else if (choice == "0") {
         cout << "Logging you out...." << endl;
         break;
     } else {
